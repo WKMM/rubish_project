@@ -1,0 +1,146 @@
+html{
+    background: url(./../img/login_bg.png) no-repeat;
+    background-size: 100% 100%;
+}
+body{
+    background: transparent;
+}
+.logo{
+    background: transparent;
+    padding:60px 94px;
+    color: #fff;
+    font-size:30px;
+
+}
+.center_login{
+    display: flex;
+    max-width: 540px;
+    max-height: 300px;
+    margin: auto;
+    color: #ffffff;
+    position: absolute;
+    top: 180px;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    border-radius: 10px;
+    text-align: center;
+}
+.logo_form{
+    font-size: 30px;
+    font-family: "Courier New", Courier, monospace;
+    padding: 15px 0px 0px;
+}
+.form_input,input[type=text],input[type=password]{
+    color:#ffffff;
+    background: rgba(255,255,255,0.3);
+    width:340px;
+    height: 35px;
+    border:none;
+    outline: none;
+
+
+}
+.form_box{
+    background: rgba(255,255,255,0.3);
+    width: 378px;
+    height: 35px;
+    margin-left: 76px;
+    margin-top: 13px;
+    border-radius: 5px;
+}
+.test input[type=text],.form_input_test{
+    color:#ffffff;
+    margin-left:15px;
+    position: relative;
+    top: -4px;
+    background:transparent;
+    width: 210px;
+    height: 20px;
+    border:none;
+    outline: none;
+}
+.test{
+    background: rgba(255,255,255,0.3);
+    width: 220px;
+    height: 35px;
+    margin-left: 76px;
+    line-height:45px;
+    margin-top: 13px;
+    border-radius: 5px;
+    display: inline-block;
+    float: left;
+}
+
+.img{
+    background: #fefefe;
+    width: 140px;
+    height: 35px;
+    margin-left: 18px;
+    margin-top: 13px;
+    border-radius: 5px;
+    display: inline-block;
+    float: left;
+}
+.form_box_check{
+    width: 378px;
+    height: 35px;
+    margin-left: 76px;
+    line-height:40px;
+    margin-top: 24px;
+    border-radius: 5px;
+}
+.button{
+    display:block;
+    margin:0 auto;
+    width: 150px;
+    height: 35px;
+    background: #4a59ff;
+    line-height: 35px;
+    border:none;
+    border-radius: 5px;
+    font-size: 16px;
+    text-align: center;
+}
+.warning{
+    display: inline-block;
+    margin:0 auto;
+}
+.warning .icon_warn {
+    display:inline-block;
+}
+.warning .icon_warn img{
+    display: inline-block;
+    width:15px;
+    height:15px;
+    margin-top:-1px;
+}
+.warning .icon_warn span{
+    display: inline-block;
+    color:red;
+    font-size:14px;
+
+}
+/* WebKit browsers */
+input::-webkit-input-placeholder {
+    color:rgba(255,255,255,0.3);
+}
+/* Mozilla Firefox 4 to 18 */
+input:-moz-placeholder {
+    color:rgba(255,255,255,0.3);
+
+}
+/* Mozilla Firefox 19+ */
+input::-moz-placeholder {
+    color:rgba(255,255,255,0.3);
+
+}
+/* Internet Explorer 10+ */
+input:-ms-input-placeholder {
+     color: rgba(255,255,255,0.3);
+
+}
+
+
+
+

@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>巡检记录</title>
+    <!--ico-->
+    <!-- <link rel="icon" type="image/x-icon" href="static/img/favicon.ico"/> -->
+
+    <!-- bootstrap & fontawesome -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/font-awesome/4.5.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="assets/font-awesome/4.5.0/css/iconfont.css" />
+    <link rel="stylesheet" href="assets/css/colorbox.min.css">
+
+    <!-- page specific plugin styles -->
+
+    <!-- text fonts -->
+
+    <link rel="stylesheet" href="assets/css/colorbox.min.css" />
+    <link rel="stylesheet" href="assets/css/fonts.googleapis.com.css" />
+
+    <!-- ace styles -->
+    <link rel="stylesheet" href="assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
+
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" href="assets/css/ace-part2.min.css" class="ace-main-stylesheet" />
+    <![endif]-->
+    <link rel="stylesheet" href="assets/css/ace-skins.min.css" />
+    <link rel="stylesheet" href="assets/css/ace-rtl.min.css" />
+    <link rel="stylesheet" href="assets/css/datepicker.css" />
+
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
+    <![endif]-->
+
+    <link rel="stylesheet" href="static/css/base.css" />
+    <link rel="stylesheet" href="static/css/city_index.css" />
+    <!-- inline styles related to this page -->
+
+    <!-- ace settings handler -->
+    <script src="assets/js/ace-extra.min.js"></script>
+
+    <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+
+    <!--[if lte IE 8]>
+    <script src="assets/js/html5shiv.min.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<style>
+    .routing .order-box label{
+        width:100px;
+    }
+    .routing #top_1 #return{
+        float: right;
+        width:80px;
+        height:40px;
+        margin:12px 20px;
+    }
+    .routing td>a{
+        width:300px;
+        height:300px;
+        cursor: pointer;
+    }
+    .routing td>a>img{
+        width:30px;
+        height:30px;
+    }
+</style>
+
+<body class="skin-1">
+<!--no-skin默认theme skin-1黑色-->
+<!--顶部logo、user信息-->
+<div id="navbar" class="navbar navbar-default ace-save-state">
+    <div class="navbar-container ace-save-state logo_cintainer" id="navbar-container">
+        <!--logo-->
+        <div class="navbar-header pull-left logo">
+            <a href="javascript:;">
+                <img src="static/img/logo.png" alt="好嘞分类">
+            </a>
+        </div>
+
+        <div class="navbar-header pull-left">
+            <ul class="navbar-navList">
+                <li><a href="area_list.html?text=area_list">分类单位管理</a></li>
+                <li><a href="device_management.html?text=device_management">分类设备管理</a></li>
+                <li><a href="score_rule.html?text=score_rule">积分现金管理</a></li>
+                <li class='nav-list-active'><a href="user_management.html?text=user_management">报表管理</a></li>
+                <li><a href="institution_management.html?text=institution_management">系统管理</a></li>
+            </ul>
+        </div>
+        <!--logo-->
+
+        <!--右侧管理员登录-->
+        <div class="navbar-buttons navbar-header pull-right" role="navigation">
+            <ul class="nav ace-nav">
+                <li class="light-blue dropdown-modal">
+                    <a data-toggle="dropdown" href="#" class="dropdown-toggle" style="background: #fbfbfb">
+                        <!-- <img id="user_avatar" class="nav-user-photo" src="static/img/favicon.png" alt="Jason's Photo" /> -->
+                        <span id="username" class="user-info">
+
+                            </span>
+
+                        <i class="ace-icon fa fa-caret-down"></i>
+                    </a>
+
+                    <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                        <!--<li>
+                            <a href="#">
+                                <i class="ace-icon fa fa-user"></i>
+                                修改密码
+                            </a>
+                        </li>-->
+
+                        <!--<li class="divider"></li>-->
+                        <li id="sigin_out">
+                            <a href="#">
+                                <i class="ace-icon fa fa-power-off"></i>
+                                注销用户
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!--右侧管理员登录-->
+    </div>
+    <!-- /.navbar-container -->
+</div>
+<!--顶部logo、user信息-->
+
+<!--内容区-->
+<div class="main-container ace-save-state" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.loadState('main-container')
+        } catch (e) {}
+    </script>
+
+    <!--左侧导航-->
+    <div id="sidebar" class="sidebar responsive ace-save-state JS-nav">
+        <script type="text/javascript">
+            try {
+                ace.settings.loadState('sidebar')
+            } catch (e) {}
+        </script>
+
+        <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+            <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left"
+               data-icon2="ace-icon fa fa-angle-double-right"></i>
+        </div>
+    </div>
+    <!--左侧导航-->
+
+    <!--右侧内容区-->
+    <div class="main-content routing">
+        <div class="main-content-inner">
+            <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+                <!-- 面包屑导航 -->
+                <ul class="breadcrumb">
+                    <li>巡检记录</li>
+                </ul>
+            </div>
+            <div class="page-content style_adjustment">
+                <div class="row style_adjustment">
+                    <!--条件查询-->
+                    <div class="order-box">
+                        <form class="form-inline">
+                            <div class="clearfix row">
+                                <div class="pull-left col-xs-12 col-sm-3">
+                                    <label>机构：</label>
+                                    <select id="institution" class="form-control search-input w-150">
+
+                                    </select>
+                                </div>
+                                <div class="pull-left col-xs-10 col-sm-3">
+                                    <label>
+                                        省：
+                                    </label>
+                                    <select id="province" class="form-control search-input w-150">
+
+                                    </select>
+                                </div>
+                                <div class="pull-left col-xs-2 col-sm-3">
+                                    <label>
+                                        市：
+                                    </label>
+                                    <select class="form-control search-input w-150" id="city">
+                                        <option value="">请选择</option>
+                                    </select>
+                                </div>
+                                <div class="pull-left col-xs-12 col-sm-3">
+                                    <label>
+                                        县：
+                                    </label>
+                                    <select class="form-control search-input w-150" id="county">
+                                        <option value="">请选择</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="clearfix row" style="margin-top: 10px;">
+                                <div class="pull-left col-xs-10 col-sm-3">
+                                    <label>小区名称：</label>
+                                    <input type="text" placeholder="请输入小区名称" id="house_name"/>
+                                </div>
+
+                                <div class="pull-left col-lg-6 col-md-6">
+                                    <label>日期：</label>
+                                    <div class="input-group input-daterange">
+                                        <input class="form-control input-sm search-input" id="start_time" type="text" placeholder="请选择开始时间" data-date-format="yyyy-mm-dd">
+                                        <span class="input-group-addon">至</span>
+                                        <input class="form-control input-sm search-input" id="end_time" type="text" placeholder="请选择结束时间" data-date-format="yyyy-mm-dd">
+                                    </div>
+                                </div>
+                                <div class="pull-left">
+                                    <button id="search" type="button" class="btn btn-success btn-xs" style="margin-right: 5px">
+                                        <i class="ace-icon fa fa-search bigger-110"></i>
+                                        搜索
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                    <!--条件查询结束-->
+
+
+                    <!-- 表格 -->
+                    <div class="table-box">
+
+                        <table id="table" class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+                                <th class="center">序号</th>
+                                <th class="center">所属机构</th>
+                                <th class="center">小区</th>
+                                <th class="center">具体楼牌号</th>
+                                <th class="center">是否合格</th>
+                                <th class="center">提交时间</th>
+                                <th class="center">巡检人员</th>
+                                <th class="center">照片记录</th>
+                            </tr>
+                            </thead>
+                            <tbody id="s_list">
+                                 <!--<td class="center">111</td>-->
+                                 <!--<td class="center">222</td>-->
+                                 <!--<td class="center">333</td>-->
+                                 <!--<td class="center">444</td>-->
+                                 <!--<td class="center">555</td>-->
+                                 <!--<td class="center">666</td>-->
+                                 <!--<td class="center">777</td>-->
+                                 <!--<td class="center">-->
+                                     <!--<a><img src="./static/img/favicon.png" alt=""></a>-->
+                                     <!--<a><img src="./static/img/favicon.png" alt=""></a>-->
+                                     <!--<a><img src="./static/img/favicon.png" alt=""></a>-->
+                                 <!--</td>-->
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <!-- /.col -->
+                </div>
+
+
+
+                <!-- /.row -->
+                <!--分页开始-->
+                <div class="row" id="page_conten" code="1">
+                    <ul class="pagination pull-right">
+                        <li _class="disabled" id="prev">
+                            <a href="javascript:;">
+                                <i class="ace-icon fa fa-angle-double-left"></i>
+                            </a>
+                        </li>
+                        <div id="page">
+
+                        </div>
+                        <li id="next">
+                            <a href="javascript:;">
+                                <i class="ace-icon fa fa-angle-double-right"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <input class="gonumber" placeholder="跳转" style="padding-left: 10px;width:60px;height:32px;margin-left: 10px;" type="number" name="" id="" value="" />
+                            <button id="go">go</button>
+                        </li>
+                    </ul>
+                </div>
+                <!--分页结束-->
+            </div>
+            <!-- /.page-content -->
+        </div>
+    </div>
+    <!--右侧内容区-->
+
+    <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+        <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+    </a>
+</div>
+
+<div id="loading" style="width: 100%; height: 100%; background: rgba(0,0,0, .6); position: fixed; top: 0; left: 0; z-index: 999;">
+    <i class="ace-icon fa fa-spinner fa-spin orange bigger-125" style="position: absolute; top: 300px; font-size: 100px !important; width: 100%;"></i>
+</div>
+
+        <!-- basic scripts -->
+        <!--[if !IE]> -->
+        <script src="assets/js/jquery-2.1.4.min.js"></script>
+        <!-- <![endif]-->
+
+        <!--[if IE]>
+        <script src="assets/js/jquery-1.11.3.min.js"></script>
+        <![endif]-->
+        <script type="text/javascript">
+            if ('ontouchstart' in document.documentElement) document.write(
+                "<script src='assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+        </script>
+        <script src="assets/js/bootstrap.min.js"></script>
+
+        <!-- page specific plugin scripts -->
+
+        <!--[if lte IE 8]>
+        <script src="assets/js/excanvas.min.js"></script>
+        <![endif]-->
+        <script src="assets/js/jquery-ui.custom.min.js"></script>
+        <script src="assets/js/jquery.ui.touch-punch.min.js"></script>
+        <script src="assets/js/jquery.easypiechart.min.js"></script>
+        <script src="assets/js/jquery.sparkline.index.min.js"></script>
+        <script src="assets/js/jquery.flot.min.js"></script>
+        <script src="assets/js/jquery.flot.pie.min.js"></script>
+        <script src="assets/js/jquery.flot.resize.min.js"></script>
+        <script src="assets/js/bootstrap-datepicker.min.js"></script>
+
+        <!-- ace scripts -->
+        <script src="assets/js/ace-elements.min.js"></script>
+        <script src="assets/js/ace.min.js"></script>
+        <script src="assets/js/jquery.colorbox.min.js"></script>
+
+        <!-- inline scripts related to this page -->
+        <script src="static/js/toast/toast.js"></script>
+        <script src="static/js/md5.js"></script>
+        <script src="static/js/utils.js"></script>
+        <script src="static/js/cookies.js"></script>
+        <script src="static/js/nav.js"></script>
+
+        <script type="text/javascript">
+            $(function(){
+
+                //请求开关
+                var bOK = true;
+                var page;
+                var cade;
+                //搜索条件
+                var searchObj = {
+                    province_id:'',
+                    city_id:'',
+                    county_id:'',
+                    organization_id:'',
+                    house_name:'',
+                    start_time:'',
+                    end_time:'',
+                    page: cade
+                };
+                var pageFn = {
+                    // 初始化
+                    init: function(){
+                        $('#username').text(getCookie('username'));
+                        pageFn.createNav();
+                        pageFn.getList(searchObj);
+                        //分页
+                        pageFn.pageList(page,cade);
+                        pageFn.search();
+                        //获取省
+                        pageFn.getProvince();
+                        //获取机构列表
+                        pageFn.getInstitutionList();
+                        //退出登录
+                        pageFn.logOut();
+                        pageFn.initDatePicker();
+                    },
+                    // 获取table列表
+                    getList: function(searchObj){
+                        request({
+                            url: '/api/patrol/patrol-list',
+                            data: searchObj
+                        }, function(data) {
+                            console.log(data);
+                            if(!bOK){
+                                $('#loading').show();
+                            }
+                            if(data.code == 0){
+                                var res = data.data.list;
+                                //创建列表
+                                var shtml = '';
+
+                                if(res.length > 0){
+                                    cade = data.data.current_page;
+                                    page = Math.ceil(data.data.total/20);
+                                    pageFn.pageList(page,cade);
+
+                                    $.each(res, function(index, item){
+                                        shtml += pageFn.createList(item,index);
+                                    });
+
+
+                                    $("#page_conten").show();
+                                    //点击分页
+                                    pageFn.pageClick();
+                                }else{
+                                    shtml += '<tr><td colspan="'+ $("#table tr th").length +'">暂无数据。</td></tr>';
+                                    $("#page_conten").hide();
+                                }
+
+                                setTimeout(function(){
+                                    $('#s_list').html(shtml);
+                                    bOK = true;
+                                    $('#loading').hide();
+
+                                    //大图展示
+                                    pageFn.showImg();
+                                }, 1000)
+                            }else{
+                                toast(data.msg).then(function(){
+                                    $('#loading').hide();
+                                });
+                            }
+                        })
+                    },
+                    //日期
+                    initDatePicker: function(){
+                        $( "#start_time").datepicker({autoclose:true}).next().on(ace.click_event, function(){
+                            $(this).prev().focus();
+                        });
+
+                        $( "#end_time").datepicker({autoclose:true}).next().on(ace.click_event, function(){
+                            $(this).prev().focus();
+                        });
+                    },
+                    createNav: function () {
+                        var nav_container = $(".JS-nav")[0];
+                        this.nav = new Nav(nav_container);
+                    },
+                    search: function(){
+                        $('#search').click(function(){
+                            var organization_id = $('#institution').val();
+                            var house_name = $('#house_name').val();
+                            var province_id = $('#province').val();
+                            var city_id = $('#city').val();
+                            var county_id = $('#county').val();
+                            var start_time = $('#start_time').val();
+                            var end_time = $('#end_time').val();
+
+                            if(start_time) {
+                                start_time = new Date(start_time + ' 00:00:00').getTime()/1000;
+                            }
+                            if(end_time) {
+                                end_time = new Date(end_time + ' 23:59:59').getTime()/1000;
+                            }
+
+                            // 搜索条件
+                            searchObj = {
+                                organization_id:organization_id,
+                                house_name:house_name,
+                                province_id:province_id,
+                                city_id:city_id,
+                                county_id:county_id,
+                                start_time:start_time,
+                                end_time:end_time,
+                                page: cade
+                            };
+                            pageFn.getList(searchObj);
+                        })
+                    },
+                    // 获取省、市、区
+                    getProvince: function(){
+                        request({
+                            url: '/api/houses/getProvince',
+                            data: {}
+                        }, function(res) {
+                            if(res.code == 0){
+                                var shtml = '<option value="">请选择</option>';
+                                $.each(res.data, function(index,item){
+                                    shtml += '<option value="'+ item.id +'">'+ item.name +'</option>';
+                                })
+                                $('#province').html(shtml);
+
+                                $('#province').change(function(){
+                                    var pid = $(this).val();
+                                    $('#city').html('<option value="">请选择</option>');
+                                    $('#county').html('<option value="">请选择</option>');
+                                    $('#area').html('<option value="">请选择</option>');
+                                    pageFn.getCity(pid);
+                                })
+                            }else{
+                                toast(res.msg);
+                            }
+                        })
+                    },
+                    getCity: function(pid){
+                        if(!pid) return;
+                        request({
+                            url: '/api/houses/getCity',
+                            data: {
+                                pid: pid
+                            }
+                        }, function(res) {
+                            if(res.code == 0){
+                                var shtml = '<option value="">请选择</option>';
+                                $.each(res.data, function(index,item){
+                                    shtml += '<option value="'+ item.id +'">'+ item.name +'</option>';
+                                })
+                                $('#city').html(shtml);
+
+                                $('#city').change(function(){
+                                    var cid = $(this).val();
+                                    pageFn.getCounty(cid);
+                                })
+                            }else{
+                                toast(res.msg);
+                            }
+                        })
+                    },
+                    getCounty: function(cid){
+                        if(!cid) return;
+                        request({
+                            url: '/api/houses/getCounty',
+                            data: {
+                                cid: cid
+                            }
+                        }, function(res) {
+                            if(res.code == 0){
+                                var shtml = '<option value="">请选择</option>';
+                                $.each(res.data, function(index,item){
+                                    shtml += '<option value="'+ item.id +'">'+ item.name +'</option>';
+                                });
+                                $('#county').html(shtml);
+
+                            }else{
+                                toast(res.msg);
+                            }
+                        })
+                    },
+                    //获取机构列表
+                    getInstitutionList: function(){
+                        request({
+                            url: '/api/mechanism/getList',
+                            data: {}
+                        }, function(res) {
+                            console.log(res)
+                            if(res.code == 0){
+                                var list = res.data.list;
+
+                                var shtml = '<option value="">请选择</option>';
+                                $.each(list,function(index,item){
+                                    shtml += '<option value="'+ item.id +'">'+ item.name +'</option>';
+                                });
+
+                                $('#institution').html(shtml);
+                            }else{
+                                toast(res.msg);
+                            }
+                        })
+                    },
+                    //创建dom
+                    createList: function(item,index){
+                        var shtml = '';
+                        var _index = (cade-1)*20 + (index+1);
+
+                        shtml += '<tr>';
+                        shtml += '  <td class="center">'+ _index +'</td>';
+                        shtml += '  <td class="center">'+ item.m_name +'</td>';
+                        shtml += '<td class="center">'+item.house_name+'</td>';
+                        shtml += '<td class="center">'+item.floor_num+'</td>';
+                        shtml += '<td class="center">'+ (item.is_qualified==1?'否':'是') +'</td>';
+                        shtml += '                                      <td class="center">'+ (item.created_at>0?getDateTime(item.created_at*1000):'--') +'</td>';
+                        shtml += '<td class="center">'+item.u_name+'</td>';
+                        shtml += '<td class="center ace-thumbnails">';
+
+                        if(item.image && item.image.length > 0){
+                            $.each(item.image,function(inde,ite){
+                                shtml += '<a href="' + (item.img_path + ite) + '"  data-rel="colorbox" class="cboxElement"><img src="' + (item.img_path + ite) + '"></a>';
+                            })
+                        }
+                        shtml += '</td>';
+                        shtml += ' </tr>';
+                        return shtml;
+                    },
+                    showImg: function(){
+                        //图片
+                        var $overflow = '';
+                        var colorbox_params = {
+                            rel: 'colorbox',
+                            reposition:true,
+                            scalePhotos:true,
+                            scrolling:false,
+                            previous:'<i class="ace-icon fa fa-arrow-left"></i>',
+                            next:'<i class="ace-icon fa fa-arrow-right"></i>',
+                            close:'&times;',
+                            current:'{current} of {total}',
+                            maxWidth:'100%',
+                            maxHeight:'100%',
+                            onOpen:function(){
+                                $overflow = document.body.style.overflow;
+                                document.body.style.overflow = 'hidden';
+                            },
+                            onClosed:function(){
+                                document.body.style.overflow = $overflow;
+                            },
+                            onComplete:function(){
+                                $.colorbox.resize();
+                            }
+                        };
+                        $('.ace-thumbnails [data-rel="colorbox"]').colorbox(colorbox_params);
+                        $("#cboxLoadingGraphic").html("<i class='ace-icon fa fa-spinner orange fa-spin'></i>");
+                    },
+                    //获取页码
+                    pageList:function(page,cade){
+                        var scade = cade-3;
+                        if(scade<0){
+                            scade=0;
+                        }
+                        var spage = page-5;
+                        var page_cade = page -cade;
+                        var shtml = '';
+                        if(page_cade<5){
+                            if(page>5){
+                                page = 5;
+                            }else{
+                                spage = 0;
+                            }
+                            for(var i = 0;i<page;i++){
+                                spage = spage+1;
+                                shtml += '<li>';
+                                shtml += '  <a name="'+spage+'" href="javascript:;">'+spage+'</a>';
+                                shtml += '</li>';
+                            }
+                        }else{
+                            var pageend = page-1
+                            for(var i = 0;i<3;i++){
+                                scade = scade+1;
+                                shtml += '<li>';
+                                shtml += '  <a name="'+scade+'" href="javascript:;">'+scade+'</a>';
+                                shtml += '</li>';
+                            }
+                            shtml += '<li>';
+                            shtml += '  <i class="pagedian" href="#">....</i>';
+                            shtml += '</li>';
+                            shtml += '<li>';
+                            shtml += '  <a name="'+pageend+'" href="javascript:;">'+pageend+'</a>';
+                            shtml += '</li>';
+                            shtml += '<li>';
+                            shtml += '  <a name="'+page+'" href="javascript:;">'+page+'</a>';
+                            shtml += '</li>';
+                        }
+                        $("#page").html(shtml);
+                        $("#page_conten").attr("code",cade);
+                        $("#page li a").removeClass("redapge");
+                        for(var i = 0;i<$("#page li a").length;i++){
+                            var id = $("#page li a").eq(i).html();
+                            if(id == cade){
+                                $("#page li a").eq(i).addClass("redapge");
+                            }
+                        }
+                    },
+                    //点击页码
+                    pageClick:function(){
+                        $("#page").off().on("click","li",function(){
+                            var _this = $(this).children("a");
+                            cade = _this.html();
+                            $("#page_conten").attr("code",cade);
+                            searchObj.page = cade;
+                            pageFn.getList(searchObj);
+                        });
+                        $("#prev").off().on("click",function(){
+                            cade = $("#page_conten").attr("code")-1;
+                            if(cade>0){
+                                searchObj.page =cade;
+                                pageFn.getList(searchObj);
+                            }
+                        });
+                        $("#next").off().on("click",function(){
+                            cade = parseInt($("#page_conten").attr("code"))+1;
+                            console.log(cade);
+                            if(cade<=page){
+                                searchObj.page =cade;
+                                pageFn.getList(searchObj);
+                            }
+                        });
+                        $("#go").off().on("click",function(){
+                            cade = $(".gonumber").val();
+                            if(cade<=page){
+                                searchObj.page =cade;
+                                pageFn.getList(searchObj);
+                            }
+                        })
+                    },
+                    //退出登录
+                    logOut: function(){
+                        $('#sigin_out').click(function(){
+                            request({
+                                url: '/api/user/log-off',
+                                data: {}
+                            }, function(res) {
+                                deleteCookie('token');
+                                toast('注销成功').then(function(){
+                                    location.href = 'login.html';
+                                })
+                            })
+                        })
+                    }
+                };
+
+                pageFn.init();
+            })
+        </script>
+</body>
+
+</html>

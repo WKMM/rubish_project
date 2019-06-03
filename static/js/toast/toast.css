@@ -1,0 +1,168 @@
+.x-tooltip {
+	border: 1px solid #ccc;
+	float: left;
+	-moz-box-shadow: 0px 2px 2px #ccc;
+	box-shadow: 0px 2px 2px #ccc;
+	position: absolute;
+	z-index: 99999;
+	top: 200px;
+	left: 0;
+	background: #000;
+	border-radius: 10px;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+}
+
+.x-tooltip i {
+	margin: 0 auto;
+	margin-top: 35px;
+	display: block;
+	width: 45px;
+	height: 45px;
+	background: url(http://ui.yidaochn.com/paimai/image/alert.png);
+}
+
+.x-tooltip div {
+	margin: 20px;
+}
+
+.x-tooltip div pre {
+	font-size: 14px;
+	line-height: 20px;
+	color: #fff;
+	border: none !important;
+	background-color: transparent !important;
+}
+
+@keyframes zoomOut {
+	0% {
+		opacity: 0.8;
+	}
+	50% {
+		opacity: 0;
+		-webkit-transform: scale3d(.3, .3, .3);
+		transform: scale3d(.3, .3, .3);
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+@-webkit-keyframes zoomOut {
+	0% {
+		opacity: 0.8;
+	}
+	50% {
+		opacity: 0;
+		-webkit-transform: scale3d(.3, .3, .3);
+		transform: scale3d(.3, .3, .3);
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+@-moz-keyframes zoomOut {
+	0% {
+		opacity: 0.8;
+	}
+	50% {
+		opacity: 0;
+		-webkit-transform: scale3d(.3, .3, .3);
+		transform: scale3d(.3, .3, .3);
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+@keyframes zoomIn {
+	0% {
+		opacity: 0;
+		-webkit-transform: scale3d(.7, .7, .7);
+		transform: scale3d(.7, .7, .7);
+	}
+	45% {
+		opacity: 0.5;
+		-webkit-transform: scale3d(1.05, 1.05, 1.05);
+		transform: scale3d(1.05, 1.05, 1.05);
+	}
+	80% {
+		opacity: 0.8;
+		-webkit-transform: scale3d(0.95, 0.95, 0.95);
+		transform: scale3d(0.95, 0.95, 0.95);
+	}
+	100% {
+		opacity: 0.8;
+		-webkit-transform: scale3d(1, 1, 1);
+		transform: scale3d(1, 1, 1);
+	}
+}
+
+@-webkit-keyframes zoomIn {
+	0% {
+		opacity: 0;
+		-webkit-transform: scale3d(.7, .7, .7);
+		transform: scale3d(.7, .7, .7);
+	}
+	45% {
+		opacity: 0.3;
+		-webkit-transform: scale3d(1.05, 1.05, 1.05);
+		transform: scale3d(1.05, 1.05, 1.05);
+	}
+	80% {
+		opacity: 0.8;
+		-webkit-transform: scale3d(0.95, 0.95, 0.95);
+		transform: scale3d(0.95, 0.95, 0.95);
+	}
+	100% {
+		opacity: 0.8;
+		-webkit-transform: scale3d(1, 1, 1);
+		transform: scale3d(1, 1, 1);
+	}
+}
+
+@-moz-keyframes zoomIn {
+	0% {
+		opacity: 0;
+		-webkit-transform: scale3d(.7, .7, .7);
+		transform: scale3d(.7, .7, .7);
+	}
+	45% {
+		opacity: 0.5;
+		-webkit-transform: scale3d(1.05, 1.05, 1.05);
+		transform: scale3d(1.05, 1.05, 1.05);
+	}
+	80% {
+		opacity: 0.8;
+		-webkit-transform: scale3d(0.95, 0.95, 0.95);
+		transform: scale3d(0.95, 0.95, 0.95);
+	}
+	100% {
+		opacity: 0.8;
+		-webkit-transform: scale3d(1, 1, 1);
+		transform: scale3d(1, 1, 1);
+	}
+}
+
+.zoomIn {
+	-webkit-animation: zoomIn 0.3s;
+	-moz-animation: zoomIn 0.3s;
+	animation: zoomIn 0.3s;
+}
+
+.zoomOut {
+	-webkit-animation: zoomOut 0.2s;
+	-moz-animation: zoomOut 0.2s;
+	animation: zoomOut 0.2s;
+}
+
+.animated {
+	-webkit-animation-duration: 0.3s;
+	-moz-animation-duration: 0.3s;
+	animation-duration: 0.3s;
+	-webkit-animation-fill-mode: both;
+	-moz-animation-fill-mode: both;
+	animation-fill-mode: both;
+}

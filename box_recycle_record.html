@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>智能箱回收记录</title>
+    <!--ico-->
+    <!-- <link rel="icon" type="image/x-icon" href="static/img/favicon.ico"/> -->
+
+    <!-- bootstrap & fontawesome -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/font-awesome/4.5.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="assets/font-awesome/4.5.0/css/iconfont.css" />
+
+    <!-- page specific plugin styles -->
+
+    <!-- text fonts -->
+    <link rel="stylesheet" href="assets/css/fonts.googleapis.com.css" />
+
+    <!-- ace styles -->
+    <link rel="stylesheet" href="assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
+
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" href="assets/css/ace-part2.min.css" class="ace-main-stylesheet" />
+    <![endif]-->
+    <link rel="stylesheet" href="assets/css/ace-skins.min.css" />
+    <link rel="stylesheet" href="assets/css/ace-rtl.min.css" />
+    <link rel="stylesheet" href="assets/css/datepicker.css" />
+
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
+    <![endif]-->
+
+    <link rel="stylesheet" href="static/css/base.css" />
+    <link rel="stylesheet" href="static/css/city_index.css" />
+    <!-- inline styles related to this page -->
+
+    <!-- ace settings handler -->
+    <script src="assets/js/ace-extra.min.js"></script>
+
+    <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+
+    <!--[if lte IE 8]>
+    <script src="assets/js/html5shiv.min.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<style>
+    .order-box label{
+        width:100px;
+    }
+    #top_1 #return{
+        float: right;
+        width:80px;
+        height:40px;
+        margin:12px 20px;
+    }
+</style>
+
+<body class="skin-1">
+<!--no-skin默认theme skin-1黑色-->
+<!--顶部logo、user信息-->
+<div id="navbar" class="navbar navbar-default ace-save-state">
+    <div class="navbar-container ace-save-state logo_cintainer" id="navbar-container">
+        <!--logo-->
+        <div class="navbar-header pull-left logo">
+            <a href="javascript:;">
+                <img src="static/img/logo.png" alt="好嘞分类">
+            </a>
+        </div>
+
+        <div class="navbar-header pull-left">
+            <ul class="navbar-navList">
+                <li><a href="area_list.html?text=area_list">分类单位管理</a></li>
+                <li><a href="device_management.html?text=device_management">分类设备管理</a></li>
+                <li><a href="score_rule.html?text=score_rule">积分现金管理</a></li>
+                <li class='nav-list-active'><a href="user_management.html?text=user_management">报表管理</a></li>
+                <li><a href="institution_management.html?text=institution_management">系统管理</a></li>
+            </ul>
+        </div>
+        <!--logo-->
+
+        <!--右侧管理员登录-->
+        <div class="navbar-buttons navbar-header pull-right" role="navigation">
+            <ul class="nav ace-nav">
+                <li class="light-blue dropdown-modal">
+                    <a data-toggle="dropdown" href="#" class="dropdown-toggle" style="background: #fbfbfb">
+                        <!-- <img id="user_avatar" class="nav-user-photo" src="static/img/favicon.png" alt="Jason's Photo" /> -->
+                        <span id="username" class="user-info">
+
+                            </span>
+
+                        <i class="ace-icon fa fa-caret-down"></i>
+                    </a>
+
+                    <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                        <!--<li>
+                            <a href="#">
+                                <i class="ace-icon fa fa-user"></i>
+                                修改密码
+                            </a>
+                        </li>-->
+
+                        <!--<li class="divider"></li>-->
+                        <li id="sigin_out">
+                            <a href="#">
+                                <i class="ace-icon fa fa-power-off"></i>
+                                注销用户
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!--右侧管理员登录-->
+    </div>
+    <!-- /.navbar-container -->
+</div>
+<!--顶部logo、user信息-->
+
+<!--内容区-->
+<div class="main-container ace-save-state" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.loadState('main-container')
+        } catch (e) {}
+    </script>
+
+    <!--左侧导航-->
+    <div id="sidebar" class="sidebar responsive ace-save-state JS-nav">
+        <script type="text/javascript">
+            try {
+                ace.settings.loadState('sidebar')
+            } catch (e) {}
+        </script>
+
+        <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+            <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left"
+               data-icon2="ace-icon fa fa-angle-double-right"></i>
+        </div>
+    </div>
+    <!--左侧导航-->
+
+    <!--右侧内容区-->
+    <div class="main-content">
+        <div class="main-content-inner">
+            <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+                <!-- 面包屑导航 -->
+                <ul class="breadcrumb">
+                    <li>智能箱回收记录</li>
+                </ul>
+            </div>
+            <div class="page-content style_adjustment">
+                <div class="row style_adjustment">
+                    <!--条件查询-->
+                    <div class="order-box">
+                        <form class="form-inline">
+                            <div class="clearfix row">
+                                <div class="pull-left col-xs-12 col-sm-3">
+                                    <label>机构：</label>
+                                    <select id="institution" class="form-control search-input w-150">
+
+                                    </select>
+                                </div>
+                                <div class="pull-left col-xs-12 col-sm-3">
+                                    <label>编号：</label>
+                                    <input type="text" placeholder="请输入回收编号" id="deal_num" />
+                                </div>
+                                <div class="pull-left col-xs-12 col-sm-3">
+                                    <label>用户名：</label>
+                                    <input type="text" placeholder="请输入用户名" id="member_name" />
+                                </div>
+                                <div class="pull-left col-xs-12 col-sm-3">
+                                    <label>用户卡号：</label>
+                                    <input type="text" placeholder="请输入用户卡号" id="cardcode" />
+                                </div>
+                            </div>
+                            <div class="clearfix row" style="margin-top: 10px;">
+                                <div class="pull-left col-xs-12 col-sm-3">
+                                    <label>供应商：</label>
+                                    <select class="form-control search-input w-150" id="supplier_id">
+
+                                    </select>
+                                </div>
+                                <div class="pull-left col-lg-6 col-md-6">
+                                    <label>日期：</label>
+                                    <div class="input-group input-daterange">
+                                        <input class="form-control input-sm search-input" id="start_time" type="text" placeholder="请选择开始时间" data-date-format="yyyy-mm-dd">
+                                        <span class="input-group-addon">至</span>
+                                        <input class="form-control input-sm search-input" id="end_time" type="text" placeholder="请选择结束时间" data-date-format="yyyy-mm-dd">
+                                    </div>
+                                </div>
+                                <div class="pull-left">
+                                    <button id="search" type="button" class="btn btn-success btn-xs" style="margin-right: 5px">
+                                        <i class="ace-icon fa fa-search bigger-110"></i>
+                                        搜索
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                    <!--条件查询结束-->
+                    <!-- 表格 -->
+                    <div class="table-box">
+                        <!-- <div class="total" style="margin-bottom:10px;">
+                            回收总数：<span>23条</span>   总积分数量：<span>1000 </span>    总现金金额：<span>1000元</span>
+                        </div> -->
+                        <table id="table" class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+                                <th class="center">序号</th>
+                                <th class="center">回收编号</th>
+                                <th class="center">所属机构</th>
+                                <th class="center">用户名</th>
+                                <th class="center">用户卡号</th>
+                                <th class="center">回收记录</th>
+                                <th class="center">设备供应商</th>
+                                <th class="center">投递时间</th>
+                                <th class="center">投递总重量（kg）</th>
+                                <th class="center">积分</th>
+                                <th class="center">现金</th>
+                                <th class="center">操作</th>
+                            </tr>
+                            </thead>
+                            <tbody id="s_list">
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+                <!--分页开始-->
+                <div class="row" id="page_conten" code="1">
+                    <ul class="pagination pull-right">
+                        <li _class="disabled" id="prev">
+                            <a href="javascript:;">
+                                <i class="ace-icon fa fa-angle-double-left"></i>
+                            </a>
+                        </li>
+                        <div id="page">
+
+                        </div>
+                        <li id="next">
+                            <a href="javascript:;">
+                                <i class="ace-icon fa fa-angle-double-right"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <input class="gonumber" placeholder="跳转" style="padding-left: 10px;width:60px;height:32px;margin-left: 10px;" type="number" name="" id="" value="" />
+                            <button id="go">go</button>
+                        </li>
+                    </ul>
+                </div>
+                <!--分页结束-->
+            </div>
+            <!-- /.page-content -->
+        </div>
+    </div>
+    <!--右侧内容区-->
+
+    <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+        <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+    </a>
+</div>
+
+<div id="loading" style="width: 100%; height: 100%; background: rgba(0,0,0, .6); position: fixed; top: 0; left: 0; z-index: 999;">
+    <i class="ace-icon fa fa-spinner fa-spin orange bigger-125" style="position: absolute; top: 300px; font-size: 100px !important; width: 100%;"></i>
+</div>
+
+<!--详情模态 -->
+<div class="modal fade bs-example-modal-lg in" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" >
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">查看详情</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">*回收编号:</label>
+                        <div class="col-sm-10">
+                            <span class="inline w-180" id="receive_num"></span>
+
+                            <label class="control-label inline">*回收类型:</label>
+
+                            <span class="inline" id="type"></span>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">*设备供应商:</label>
+                        <div class="col-sm-10">
+                            <span class="inline w-180" id="supplier_name"></span>
+
+                            <label class="control-label inline">*箱体编号:</label>
+
+                            <span class="inline" id="box_number"> </span>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">*终端设备号:</label>
+                        <div class="col-sm-10">
+                            <span class="inline w-180" id="device_id"></span>
+
+                            <label class="control-label inline">*用户名称:</label>
+
+                            <span class="inline" id="useName"> </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">*用户卡号:</label>
+                        <div class="col-sm-10">
+                            <span class="inline w-180" id="usercard"></span>
+                            <label class="control-label inline">*所属机构:</label>
+                            <span class="inline" id="mechanism_name"> </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">*投递时间:</label>
+                        <div class="col-sm-10">
+                            <span class="inline w-180" id="time"></span>
+                            <label class="control-label inline">*投放区域:</label>
+                            <span class="inline" id="delivery_place"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">*用户手机号:</label>
+                        <div class="col-sm-10">
+                            <span class="inline w-180" id="user_mobile"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <!-- 表格 -->
+                        <div class="table-box">
+
+                            <table id="table1" class="table table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th class="center">分类名称</th>
+                                    <th class="center">重量(kg)</th>
+                                    <th class="center">积分</th>
+                                    <th class="center">现金</th>
+                                </tr>
+                                </thead>
+                                <tbody id="s_list1">
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+                    </div>
+            </div>
+        </div>
+
+        <!-- basic scripts -->
+        <!--[if !IE]> -->
+        <script src="assets/js/jquery-2.1.4.min.js"></script>
+        <!-- <![endif]-->
+
+        <!--[if IE]>
+        <script src="assets/js/jquery-1.11.3.min.js"></script>
+        <![endif]-->
+        <script type="text/javascript">
+            if ('ontouchstart' in document.documentElement) document.write(
+                "<script src='assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+        </script>
+        <script src="assets/js/bootstrap.min.js"></script>
+
+        <!-- page specific plugin scripts -->
+
+        <!--[if lte IE 8]>
+        <script src="assets/js/excanvas.min.js"></script>
+        <![endif]-->
+        <script src="assets/js/jquery-ui.custom.min.js"></script>
+        <script src="assets/js/jquery.ui.touch-punch.min.js"></script>
+        <script src="assets/js/jquery.easypiechart.min.js"></script>
+        <script src="assets/js/jquery.sparkline.index.min.js"></script>
+        <script src="assets/js/jquery.flot.min.js"></script>
+        <script src="assets/js/jquery.flot.pie.min.js"></script>
+        <script src="assets/js/jquery.flot.resize.min.js"></script>
+        <script src="assets/js/bootstrap-datepicker.min.js"></script>
+
+        <!-- ace scripts -->
+        <script src="assets/js/ace-elements.min.js"></script>
+        <script src="assets/js/ace.min.js"></script>
+
+        <!-- inline scripts related to this page -->
+        <script src="static/js/toast/toast.js"></script>
+        <script src="static/js/md5.js"></script>
+        <script src="static/js/utils.js"></script>
+        <script src="static/js/cookies.js"></script>
+        <script src="static/js/nav.js"></script>
+        <script type="text/javascript">
+            $(function(){
+                //请求开关
+                var bOK = true;
+                var page;
+                var cade;
+                //搜索条件
+                var searchObj = {
+                    mechanism_id:'',
+                    deal_num:'',
+                    member_name:'',
+                    cardcode:'',
+                    supplier_id:'',
+                    start_time:'',
+                    end_time:'',
+                    page: cade
+                };
+                var pageFn = {
+                    // 初始化
+                    init: function(){
+                        $('#username').text(getCookie('username'));
+                        pageFn.createNav();
+                        pageFn.getList(searchObj);
+                        //查看详情
+                        pageFn.viewBox();
+                        //分页
+                        pageFn.pageList(page,cade);
+                        pageFn.search();
+                        //获取机构列表
+                        pageFn.getInstitutionList();
+                        //获取供应商列表
+                        pageFn.getSupplierList();
+                        //退出登录
+                        pageFn.logOut();
+                        pageFn.initDatePicker();
+                    },
+                    // 详情模态框
+                    viewBox:function(){
+                        $("#s_list").on("click",'.modify',function(){
+                            var _id = $(this).data().id;
+                            pageFn.getInfo(_id);
+                            $("#viewModal").modal('show');
+                        })
+                    },
+                    // 列表
+                    getList: function(searchObj){
+                        request({
+                            url: '/api/equipment/records-list',
+                            data: searchObj
+                        }, function(data) {
+                            console.log(data);
+                            if(!bOK){
+                                $('#loading').show();
+                            }
+                            if(data.code == 0){
+                                var res = data.data.list;
+                                //创建列表
+                                var shtml = '';
+
+                                if(res.length > 0){
+                                    cade = data.data.current_page;
+                                    page = Math.ceil(data.data.total/20);
+                                    pageFn.pageList(page,cade);
+
+                                    $.each(res, function(index, item){
+                                        shtml += pageFn.createList(item,index);
+                                    })
+
+
+                                    $("#page_conten").show();
+                                    //点击分页
+                                    pageFn.pageClick();
+                                }else{
+                                    shtml += '<tr><td colspan="'+ $("#table tr th").length +'">暂无数据。</td></tr>';
+                                    $("#page_conten").hide();
+                                }
+
+                                setTimeout(function(){
+                                    $('#s_list').html(shtml);
+                                    bOK = true;
+                                    $('#loading').hide();
+                                }, 1000)
+                            }else{
+                                toast(data.msg).then(function(){
+                                    $('#loading').hide();
+                                });
+                            }
+                        })
+                    },
+                    //日期
+                    initDatePicker: function(){
+                        $( "#start_time").datepicker({autoclose:true}).next().on(ace.click_event, function(){
+                            $(this).prev().focus();
+                        });
+
+                        $( "#end_time").datepicker({autoclose:true}).next().on(ace.click_event, function(){
+                            $(this).prev().focus();
+                        });
+                    },
+                    createNav: function () {
+                        var nav_container = $(".JS-nav")[0];
+                        this.nav = new Nav(nav_container);
+                    },
+                    //获取供应商列表
+                    getSupplierList: function(){
+                        request({
+                            url: '/api/supplier/getList'
+                        }, function(data) {
+                            if(data.code == 0){
+                                var res = data.data;
+                                //创建列表
+                                var html = '<option value="">请选择</option>';
+                                if(res.length > 0){
+                                    $.each(res, function(index, item){
+                                        html += '<option value="'+ item.id +'">'+ item.name + '</option>';
+                                    })
+                                }
+                                $('#supplier_id').html(html);
+                            }else{
+                                toast(data.msg);
+                            }
+                        })
+                    },
+                    //查看详情
+                    getInfo: function(id){
+                        request({
+                            url: '/api/equipment/record',
+                            data: {
+                                id:id
+                            }
+                        }, function(data) {
+                            console.log(data);
+                            if(data.code == 0){
+                                var res = data.data;
+                                $('#receive_num').html(res.deal_num);
+                                if(res.type == '1'){
+                                    $('#type').html('智能回收箱');
+                                }else if(res.type == '2'){
+                                    $('#type').html('厨余回收');
+                                }else if(res.type == '3'){
+                                    $('#type').html('大袋回收');
+                                }
+                                $('#usercard').html(res.cardcode);
+                                $('#user_mobile').html(res.mobile);
+                                $('#supplier_name').html(res.supplier_name);
+                                $('#box_number').html(res.box_number);
+                                $('#device_id').html(res.device_id);
+                                $('#useName').html(res.realname);
+                                $('#delivery_place').html(res.delivery_place);
+                                $('#time').html(getDateTime(res.updated_at * 1000));
+                                $('#mechanism_name').html(res.mechanism_name);
+
+                                //表格
+                                var shtml = '';
+                                shtml +=            '<tr>';
+                                shtml +=                '<td class="center">'+ res.item_name +'</td>';
+                                shtml +=                '<td class="center">'+ res.weight/1000 +'</td>';
+                                shtml +=                '<td class="center">'+ res.credit +'</td>';
+                                shtml +=                '<td class="center">'+ res.amount/100 +'</td>';
+                                shtml +=            '</tr>';
+
+                                $('#s_list1').html(shtml);
+                            }else{
+                                toast(data.msg);
+                            }
+                        })
+                    },
+                    search: function(){
+                        $('#search').click(function(){
+                            var mechanism_id = $('#institution').val();
+                            var deal_num = $('#deal_num').val();
+                            var member_name = $('#member_name').val();
+                            var cardcode = $('#cardcode').val();
+                            var supplier_id = $('#supplier_id').val();
+                            var start_time = $('#start_time').val();
+                            var end_time = $('#end_time').val();
+
+                            if(start_time) {
+                                start_time = new Date(start_time + ' 00:00:00').getTime()/1000;
+                            }
+                            if(end_time) {
+                                end_time = new Date(end_time + ' 23:59:59').getTime()/1000;
+                            }
+
+                            searchObj = {
+                                mechanism_id:mechanism_id,
+                                deal_num:deal_num,
+                                member_name:member_name,
+                                cardcode:cardcode,
+                                supplier_id:supplier_id,
+                                start_time:start_time,
+                                end_time:end_time,
+                                page: cade
+                            };
+
+                            pageFn.getList(searchObj);
+                        })
+                    },
+                    //获取机构列表
+                    getInstitutionList: function(){
+                        request({
+                            url: '/api/mechanism/getList',
+                            data: {}
+                        }, function(res) {
+                            console.log(res)
+                            if(res.code == 0){
+                                var list = res.data.list;
+
+                                var shtml = '<option value="">请选择</option>';
+                                $.each(list,function(index,item){
+
+                                    if(item.status == 1){
+                                        shtml += '<option value="'+ item.id +'">'+ item.name +'</option>';
+                                    }
+                                });
+
+                                $('#institution').html(shtml);
+                            }else{
+                                toast(res.msg);
+                            }
+                        })
+                    },
+                    //创建dom
+                    createList: function(item,index){
+                        var shtml = '';
+                        var _index = (cade-1)*20 + (index+1);
+
+                        shtml += '                                  <tr>';
+                        shtml += '                                      <td class="center">'+ _index +'</td>';
+                        shtml += '                                      <td class="center">'+ item.deal_num +'</td>';
+                        shtml += '                                      <td class="center">'+ item.mechanism_name +'</td>';
+                        shtml += '                                      <td class="center">'+ item.member_name +'</td>';
+                        shtml += '                                      <td class="center">'+ item.cardcode +'</td>';
+                        var str = '';
+                        if(item.type == '1'){
+                            str = '回收箱回收';
+                        }else if(item.type == '2'){
+                            str = '厨余回收';
+                        }else if(item.type == '3'){
+                            str = '大袋回收';
+                        }
+                        shtml += '                                      <td class="center">'+ str +'</td>';
+                        shtml += '                                      <td class="center">'+ item.supplier_name +'</td>';
+                        shtml += '                                      <td class="center">'+ getDateTime(item.created_at*1000) +'</td>';
+                        shtml += '                                      <td class="center">'+ item.weight/1000 +'</td>';
+                        shtml += '                                      <td class="center">'+ item.credit +'</td>';
+                        shtml += '                                      <td class="center">'+ item.amount/100 +'</td>';
+                        shtml += '                                      <td class="center">';
+                        shtml += '                                          <button class=\'modify btn btn-xs btn-info\' data-id="'+ item.id +'">';
+                        shtml += '                                              <i class="ace-icon fa fa-eye bigger-120"></i>';
+                        shtml += '                                              查看详情';
+                        shtml += '                                          </button>';
+
+                        shtml += '                                      </td>';
+                        shtml += '                                  </tr>';
+
+                        return shtml;
+                    },
+                    //获取页码
+                    pageList:function(page,cade){
+                        var scade = cade-3;
+                        if(scade<0){
+                            scade=0;
+                        }
+                        var spage = page-5;
+                        var page_cade = page -cade;
+                        var shtml = '';
+                        if(page_cade<5){
+                            if(page>5){
+                                page = 5;
+                            }else{
+                                spage = 0;
+                            }
+                            for(var i = 0;i<page;i++){
+                                spage = spage+1;
+                                shtml += '<li>';
+                                shtml += '  <a name="'+spage+'" href="javascript:;">'+spage+'</a>';
+                                shtml += '</li>';
+                            }
+                        }else{
+                            var pageend = page-1
+                            for(var i = 0;i<3;i++){
+                                scade = scade+1;
+                                shtml += '<li>';
+                                shtml += '  <a name="'+scade+'" href="javascript:;">'+scade+'</a>';
+                                shtml += '</li>';
+                            }
+                            shtml += '<li>';
+                            shtml += '  <i class="pagedian" href="#">....</i>';
+                            shtml += '</li>';
+                            shtml += '<li>';
+                            shtml += '  <a name="'+pageend+'" href="javascript:;">'+pageend+'</a>';
+                            shtml += '</li>';
+                            shtml += '<li>';
+                            shtml += '  <a name="'+page+'" href="javascript:;">'+page+'</a>';
+                            shtml += '</li>';
+                        }
+                        $("#page").html(shtml);
+                        $("#page_conten").attr("code",cade);
+                        $("#page li a").removeClass("redapge");
+                        for(var i = 0;i<$("#page li a").length;i++){
+                            var id = $("#page li a").eq(i).html();
+                            if(id == cade){
+                                $("#page li a").eq(i).addClass("redapge");
+                            }
+                        }
+                    },
+                    //点击页码
+                    pageClick:function(){
+                        $("#page").off().on("click","li",function(){
+                            var _this = $(this).children("a");
+                            cade = _this.html();
+                            $("#page_conten").attr("code",cade);
+                            searchObj.page = cade;
+                            pageFn.getList(searchObj);
+                        })
+                        $("#prev").off().on("click",function(){
+                            cade = $("#page_conten").attr("code")-1;
+                            if(cade>0){
+                                searchObj.page =cade;
+                                pageFn.getList(searchObj);
+                            }
+                        })
+                        $("#next").off().on("click",function(){
+                            cade = parseInt($("#page_conten").attr("code"))+1;
+                            console.log(cade);
+                            if(cade<=page){
+                                searchObj.page =cade;
+                                pageFn.getList(searchObj);
+                            }
+                        })
+                        $("#go").off().on("click",function(){
+                            cade = $(".gonumber").val();
+                            if(cade<=page){
+                                searchObj.page =cade;
+                                pageFn.getList(searchObj);
+                            }
+                        })
+                    },
+                    logOut: function(){
+                        $('#sigin_out').click(function(){
+                            request({
+                                url: '/api/user/log-off',
+                                data: {}
+                            }, function(res) {
+                                deleteCookie('token');
+                                toast('注销成功').then(function(){
+                                    location.href = 'login.html';
+                                })
+                            })
+                        })
+                    }
+                };
+
+                pageFn.init();
+
+            })
+        </script>
+</body>
+
+</html>

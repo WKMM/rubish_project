@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>机构管理</title>
+    <!--ico-->
+    <!-- <link rel="icon" type="image/x-icon" href="static/img/favicon.ico"/> -->
+
+    <!-- bootstrap & fontawesome -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/font-awesome/4.5.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="assets/font-awesome/4.5.0/css/iconfont.css" />
+
+    <!-- page specific plugin styles -->
+
+    <!-- text fonts -->
+    <link rel="stylesheet" href="assets/css/fonts.googleapis.com.css" />
+
+    <!-- ace styles -->
+    <link rel="stylesheet" href="assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
+
+    <!--[if lte IE 9]>
+			<link rel="stylesheet" href="assets/css/ace-part2.min.css" class="ace-main-stylesheet" />
+		<![endif]-->
+    <link rel="stylesheet" href="assets/css/ace-skins.min.css" />
+    <link rel="stylesheet" href="assets/css/ace-rtl.min.css" />
+
+    <!--[if lte IE 9]>
+		  <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
+		<![endif]-->
+
+    <link rel="stylesheet" href="static/css/base.css" />
+    <link rel="stylesheet" href="static/css/city_index.css" />
+    <style>
+	.citys_content{
+		padding-top: 5px;
+	}
+	.citys_content span{
+		margin-right: 5px;
+	}
+	</style>
+    <!-- inline styles related to this page -->
+
+    <!-- ace settings handler -->
+    <script src="assets/js/ace-extra.min.js"></script>
+
+    <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+
+    <!--[if lte IE 8]>
+		<script src="assets/js/html5shiv.min.js"></script>
+		<script src="assets/js/respond.min.js"></script>
+		<![endif]-->
+
+</head>
+
+<body class="skin-1">
+    <!--no-skin默认theme skin-1黑色-->
+    <!--顶部logo、user信息-->
+    <div id="navbar" class="navbar navbar-default ace-save-state">
+        <div class="navbar-container ace-save-state logo_cintainer" id="navbar-container">
+            <!--logo-->
+            <div class="navbar-header pull-left logo">
+                <a href="javascript:;">
+                    <img src="static/img/logo.png" alt="好嘞分类">
+                </a>
+            </div>
+
+            <div class="navbar-header pull-left">
+                <ul class="navbar-navList">
+	                <li><a href="area_list.html?text=area_list">分类单位管理</a></li>
+	                <li><a href="device_management.html?text=device_management">分类设备管理</a></li>
+	                <li><a href="score_rule.html?text=score_rule">积分现金管理</a></li>
+	                <li><a href="user_management.html?text=user_management">报表管理</a></li>
+	                <li class='nav-list-active'><a href="institution_management.html?text=institution_management">系统管理</a></li>
+	            </ul>
+            </div>
+            <!--logo-->
+
+            <!--右侧管理员登录-->
+            <div class="navbar-buttons navbar-header pull-right" role="navigation">
+                <ul class="nav ace-nav">
+                    <li class="light-blue dropdown-modal">
+                        <a data-toggle="dropdown" href="#" class="dropdown-toggle" style="background: #fbfbfb">
+                       <!--      <img id="user_avatar" class="nav-user-photo" src="static/img/favicon.png" alt="Jason's Photo" /> -->
+                            <span id="username" class="user-info">
+                                
+                            </span>
+
+                            <i class="ace-icon fa fa-caret-down"></i>
+                        </a>
+
+                        <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                            <!--<li>
+								<a href="#">
+									<i class="ace-icon fa fa-user"></i>
+									修改密码
+								</a>
+							</li>-->
+
+                            <!--<li class="divider"></li>-->
+                            <li id="sigin_out">
+                                <a href="#">
+                                    <i class="ace-icon fa fa-power-off"></i>
+                                    注销用户
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!--右侧管理员登录-->
+        </div>
+        <!-- /.navbar-container -->
+    </div>
+    <!--顶部logo、user信息-->
+
+    <!--内容区-->
+    <div class="main-container ace-save-state" id="main-container">
+        <script type="text/javascript">
+            try {
+                ace.settings.loadState('main-container')
+            } catch (e) {}
+        </script>
+
+        <!--左侧导航-->
+        <div id="sidebar" class="sidebar responsive ace-save-state JS-nav">
+            <script type="text/javascript">
+                try {
+                    ace.settings.loadState('sidebar')
+                } catch (e) {}
+            </script>
+
+            <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+                <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left"
+                    data-icon2="ace-icon fa fa-angle-double-right"></i>
+            </div>
+        </div>
+        <!--左侧导航-->
+
+        <!--右侧内容区-->
+        <div class="main-content">
+            <div class="main-content-inner">
+				<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+	                <!-- 面包屑导航 -->
+	                <ul class="breadcrumb">
+	                    <li>机构管理</li>
+	                    <li>机构列表</li>
+	                </ul>
+	            </div>
+                <div class="page-content style_adjustment">
+					<div class="row style_adjustment">
+						<!--条件查询-->
+                        <div class="order-box">
+                            <form class="form-inline">
+                                <div class="clearfix row">
+                                    <div class="pull-left col-xs-12 col-sm-3">
+                                        <label>机构名称：</label>
+                                        <input placeholder="请输入机构名称" type="text" class="form-control w-150 search-input" id="institution_name">
+                                    </div>
+                                    <div class="pull-left col-xs-12 col-sm-3">
+                                        <label style="width:100px;">机构负责人：</label>
+                                        <input placeholder="请输入机构负责人" type="text" class="form-control w-150 search-input" id="res_person">
+                                    </div>
+                                    <div class="pull-left col-xs-12 col-sm-3">
+                                        <label>联系电话：</label>
+                                        <input placeholder="请输入联系电话" type="text" class="form-control w-150 search-input" id="mobile">
+                                    </div>
+                                    <div class="pull-left">
+										<button id="search" type="button" class="btn btn-success btn-xs" style="margin-right: 5px">
+											<i class="ace-icon fa fa-search bigger-110"></i>
+											搜索
+										</button>
+										
+									</div>
+                                </div>
+                                <div class="clearfix row" style="margin-top:20px;margin-left:10px;">
+									<a href="javascript:;" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#createAreaModal">
+										<i class="ace-icon fa fa-plus bigger-110"></i>
+										添加新机构
+									</a>
+                                </div>
+                            </form>
+
+                        </div>
+                        <!--条件查询结束-->
+						<!-- 表格 -->
+						<div class="table-box">
+							<table id="table" class="table table-bordered table-hover">
+								<thead>
+									<tr>
+										<th class="center">序号</th>
+										<th class="center">机构名称</th>
+										<th class="center">机构负责人</th>
+										<th class="center">联系电话</th>
+										<th class="center">机构性质</th>
+										<th class="center">状态</th>
+										<th class="center">操作</th>
+									</tr>
+								</thead>
+								<tbody id="s_list">
+<!-- 									<tr>
+										<td class="center">01</td>
+										<td class="center">男</td>
+										<td class="center">用户头像</td>
+										<td class="center">冻结</td>
+										<td class="center">2017-07-21 02:36:36</td>
+										<td class="center">
+											<button class='modify btn btn-xs btn-info' data-toggle="modal" data-target="#editAreaModal">
+												<i class="ace-icon fa fa-pencil bigger-120"></i>
+												编辑
+											</button>
+											<button class='modify btn btn-xs btn-info'>
+												<i class="ace-icon fa fa-lock bigger-150"></i>
+												删除
+											</button>
+										</td>
+									</tr> -->
+								</tbody>
+							</table>
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+					<!--分页开始-->
+					<div class="row" id="page_conten" code="1">
+						<ul class="pagination pull-right">
+							<li _class="disabled" id="prev">
+								<a href="javascript:;">
+									<i class="ace-icon fa fa-angle-double-left"></i>
+								</a>
+							</li>
+							<div id="page">
+								
+							</div>
+							<li id="next">
+								<a href="javascript:;">
+									<i class="ace-icon fa fa-angle-double-right"></i>
+								</a>
+							</li>
+							<li>
+								<input class="gonumber" placeholder="跳转" style="padding-left: 10px;width:60px;height:32px;margin-left: 10px;" type="number" name="" id="" value="" />
+								<button id="go">go</button>
+							</li>
+						</ul>
+					</div>
+					<!--分页结束-->
+				</div>
+				<!-- /.page-content -->
+            </div>
+        </div>
+        <!--右侧内容区-->
+
+        <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+            <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+        </a>
+    </div>
+
+    <div id="loading" style="width: 100%; height: 100%; background: rgba(0,0,0, .6); position: fixed; top: 0; left: 0; z-index: 999;">
+	    <i class="ace-icon fa fa-spinner fa-spin orange bigger-125" style="position: absolute; top: 300px; font-size: 100px !important; width: 100%;"></i>
+	</div>
+
+	<!-- 添加新机构 -->
+    <div class="modal fade bs-example-modal-lg" id="createAreaModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+	  <div class="modal-dialog modal-lg" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="exampleModalLabel">添加新机构</h4>
+	      </div>
+	      <div class="modal-body">
+	        <form class="form-horizontal">
+	          <div class="form-group">
+					<label for="recipient-name" class="col-sm-2 control-label">*机构名称:</label>
+					<div class="col-sm-10">
+		            	<input type="text" class="form-control" id="add_inst_name" />
+		            </div>
+	          </div>
+	          <div class="form-group">
+					<label for="inputEmail3" class="col-sm-2 control-label">*业务覆盖城市:</label>
+				    <div class="col-sm-10">
+				    	<div class="pull-left citys_content" id="add_citys">
+						<!-- <span>北京</span> -->
+				    	</div>
+				      <button class='btn btn-xs btn-info pull-right' type="button" data-toggle="modal" data-target="#selectCityAddModal">
+						选择城市
+					  </button>
+				    </div>
+	          </div>
+	          <div class="form-group">
+					<label for="inputEmail3" class="col-sm-2 control-label">*负责人:</label>
+				    <div class="col-sm-10">
+				      <input type="text" class="form-control inline w-180" placeholder="" id="add_res_person">
+					  <label for="inputEmail3" class="control-label inline">*联系电话:</label>
+				      <input type="text" class="form-control inline w-180" placeholder="" id="add_mobile">
+				    </div>
+	          </div>
+	          <div class="form-group">
+					<label for="recipient-name" class="col-sm-2 control-label">*机构性质:</label>
+					<div class="col-sm-10">
+		            	<label class="radio-inline">
+						  <input type="radio" name="add_nature" value="1" checked> 自营
+						</label>
+						<label class="radio-inline">
+						  <input type="radio" name="add_nature" value="2"> 合资运营
+						</label>
+		            </div>
+	          </div>
+	        </form>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+	        <button type="button" class="btn btn-primary" id="add_save_btn">保存</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+	<!-- 编辑机构 -->
+    <div class="modal fade bs-example-modal-lg" id="editAreaModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+	  <div class="modal-dialog modal-lg" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="exampleModalLabel">编辑机构</h4>
+	      </div>
+	      <div class="modal-body">
+	        <form class="form-horizontal">
+	          <div class="form-group">
+					<label for="recipient-name" class="col-sm-2 control-label">*机构名称:</label>
+					<div class="col-sm-10">
+		            	<input type="text" class="form-control" id="edit_inst_name" />
+		            </div>
+	          </div>
+	          <div class="form-group">
+					<label for="inputEmail3" class="col-sm-2 control-label">*业务覆盖城市:</label>
+				    <div class="col-sm-10">
+				    	<div class="pull-left citys_content" id="edit_citys">
+	<!-- 				      <span>北京</span>
+					      <span>上海</span> -->
+				    	</div>
+				      <button class='btn btn-xs btn-info pull-right' type="button" data-toggle="modal" data-target="#selectCityEditModal">
+						选择城市
+					  </button>
+				    </div>
+	          </div>
+	          <div class="form-group">
+					<label for="inputEmail3" class="col-sm-2 control-label">*负责人:</label>
+				    <div class="col-sm-10">
+				      <input type="text" class="form-control inline w-180" placeholder="" id="edit_res_person">
+					  <label for="inputEmail3" class="control-label inline">*联系电话:</label>
+				      <input type="text" class="form-control inline w-180" placeholder="" id="edit_mobile">
+				    </div>
+	          </div>
+	          <div class="form-group">
+					<label for="recipient-name" class="col-sm-2 control-label">*机构性质:</label>
+					<div class="col-sm-10">
+		            	<label class="radio-inline">
+						  <input type="radio" name="edit_nature" value="1" checked> 自营
+						</label>
+						<label class="radio-inline">
+						  <input type="radio" name="edit_nature" value="2"> 合资运营
+						</label>
+		            </div>
+	          </div>
+	        </form>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+	        <button type="button" class="btn btn-primary" id="edit_save_btn">保存</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+	<!-- 添加机构-选择城市 -->
+    <div class="modal fade bs-example-modal-lg" id="selectCityAddModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+	  <div class="modal-dialog modal-lg" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="exampleModalLabel">选择城市</h4>
+	      </div>
+	      <div class="modal-body">
+	      	<div id="add_city_container">
+<!-- 		        <label class="checkbox-inline">
+				  <input type="checkbox" id="inlineCheckbox1" value="option1"> 北京
+				</label> -->
+			</div>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+	        <button type="button" class="btn btn-primary" id="add_city_save_btn">保存</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+	<!-- 编辑机构-选择城市 -->
+    <div class="modal fade bs-example-modal-lg" id="selectCityEditModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+	  <div class="modal-dialog modal-lg" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="exampleModalLabel">选择城市</h4>
+	      </div>
+	      <div class="modal-body">
+	      	<div id="edit_city_container">
+<!-- 		        <label class="checkbox-inline">
+				  <input type="checkbox" id="inlineCheckbox1" value="option1"> 北京
+				</label> -->
+			</div>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+	        <button type="button" class="btn btn-primary" id="edit_city_save_btn">保存</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+
+    <!-- basic scripts -->
+    <!--[if !IE]> -->
+    <script src="assets/js/jquery-2.1.4.min.js"></script>
+    <!-- <![endif]-->
+
+    <!--[if IE]>
+	<script src="assets/js/jquery-1.11.3.min.js"></script>
+	<![endif]-->
+    <script type="text/javascript">
+        if ('ontouchstart' in document.documentElement) document.write(
+            "<script src='assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+    </script>
+    <script src="assets/js/bootstrap.min.js"></script>
+
+    <!-- page specific plugin scripts -->
+
+    <!--[if lte IE 8]>
+		  <script src="assets/js/excanvas.min.js"></script>
+		<![endif]-->
+    <script src="assets/js/jquery-ui.custom.min.js"></script>
+    <script src="assets/js/jquery.ui.touch-punch.min.js"></script>
+    <script src="assets/js/jquery.easypiechart.min.js"></script>
+    <script src="assets/js/jquery.sparkline.index.min.js"></script>
+    <script src="assets/js/jquery.flot.min.js"></script>
+    <script src="assets/js/jquery.flot.pie.min.js"></script>
+    <script src="assets/js/jquery.flot.resize.min.js"></script>
+	<script src="assets/js/bootbox.js" type="text/javascript" charset="utf-8"></script>
+
+    <!-- ace scripts -->
+    <script src="assets/js/ace-elements.min.js"></script>
+    <script src="assets/js/ace.min.js"></script>
+
+    <!-- inline scripts related to this page -->
+    <script src="static/js/toast/toast.js"></script>
+    <script src="static/js/md5.js"></script>
+    <script src="static/js/utils.js"></script>
+    <script src="static/js/cookies.js"></script>
+    <script src="static/js/nav.js"></script>
+    <script type="text/javascript">
+        $(function(){
+		//请求开关
+		var bOK = true;
+        var page;
+        var cade; 
+    	//搜索条件
+    	var searchObj = {
+    		name:'', //机构名称
+    		res_person:'', //机构负责人
+    		mobile:'', //联系电话
+    		page: cade
+    	}
+    	var pageFn = {
+    		init: function(){
+    			$('#username').text(getCookie('username'));
+    			pageFn.createNav();
+    			pageFn.getList(searchObj);
+				//分页
+                pageFn.pageList(page,cade);
+    			pageFn.search();
+    			//获取城市-添加机构
+    			pageFn.getCitys();
+    			//初始化添加机构保存按钮
+    			pageFn.addSaveFn();
+    			//初始化编辑机构保存按钮
+    			pageFn.editSaveFn();
+    			//冻结/解冻机构
+    			pageFn.frozenFn();
+    			//退出登录
+    			pageFn.logOut();
+    		},
+    		getList: function(searchObj){
+    			request({
+					url: '/api/mechanism/getList',
+					data: searchObj
+				}, function(data) {
+					console.log(data)
+					if(!bOK){
+						$('#loading').show();
+					}
+					if(data.code == 0){
+						var res = data.data.list;
+						//创建列表
+						var shtml = '';
+
+						if(res.length > 0){
+                            cade = data.data.current_page;
+                            page = Math.ceil(data.data.total/20);
+                            pageFn.pageList(page,cade);
+
+							$.each(res, function(index, item){
+								shtml += pageFn.createList(item,index);
+							})
+
+							$("#page_conten").show();
+							//点击分页
+                        	pageFn.pageClick();
+                        }else{
+							shtml += '<tr><td colspan="'+ $("#table tr th").length +'">暂无数据。</td></tr>';
+							$("#page_conten").hide();
+                        }
+
+						setTimeout(function(){
+							$('#s_list').html(shtml);
+							bOK = true;
+							$('#loading').hide();
+						}, 1000)
+					}else{
+						toast(data.msg).then(function(){
+							$('#loading').hide();
+						});
+					}
+				})
+    		},
+    		createNav: function () {
+                var nav_container = $(".JS-nav")[0];
+                this.nav = new Nav(nav_container);
+            },
+            search: function(){
+            	$('#search').click(function(){
+            		searchObj.name = $('#institution_name').val();
+            		searchObj.res_person = $('#res_person').val();
+            		searchObj.mobile = $('#mobile').val();
+
+            		pageFn.getList(searchObj);
+            	})
+            },
+            //获取城市-添加机构
+            getCitys: function(){
+            	request({
+					url: '/api/mechanism/info',
+					data: {
+						action:'add'
+					}
+				}, function(data) {
+					console.log(data)
+					if(data.code == 0){
+						var citys = data.data;
+						var shtml = '';
+						$.each(citys,function(index,item){
+							shtml += '<label class="checkbox-inline">';
+							shtml += '<input type="checkbox" cityName="'+ item.city_name +'" value="'+ item.id +'"> '+ item.city_name;
+							shtml += '</label>';
+						})
+						$('#add_city_container').html(shtml);
+					}else{
+						toast(data.msg);
+					}
+				})
+            },
+            //添加机构保存
+            addSaveFn: function(){
+            	var citysId = []; //城市id
+            	//添加机构-选择城市保存按钮
+            	$('#add_city_save_btn').click(function(){
+            		citysId = [];
+            		var citysName = []; //城市名称
+            		var checkedbox = $('#add_city_container input[type=checkbox]:checked');
+            		$.each(checkedbox,function(index,item){
+            			citysId.push($(item).val());
+            			citysName.push($(item).attr('cityName'))
+            		})
+
+            		var html = '';
+            		$.each(citysName,function(index,item){
+            			html += '<span>'+ item +'</span>';
+            		})
+            		$('#add_citys').html(html);
+
+            		$('#selectCityAddModal').modal('hide');
+            	})
+
+            	//添加机构-保存按钮
+            	$('#add_save_btn').click(function(){
+            		var add_inst_name = $('#add_inst_name').val();
+            		var add_res_person = $('#add_res_person').val();
+            		var add_mobile = $('#add_mobile').val();
+            		var add_nature = $('input[name="add_nature"]:checked').val();
+            		var add_citysName = $('#add_citys').text();
+
+            		if(!add_inst_name) return toast('机构名称不能为空');
+            		if(!add_citysName) return toast('请先选择业务覆盖城市');
+            		if(!add_res_person) return toast('负责人不能为空');
+            		if(!add_mobile) return toast('联系电话不能为空');
+
+            		var tempObj = {
+            			name:add_inst_name,
+            			res_person:add_res_person,
+            			mobile:add_mobile,
+            			nature:add_nature,
+            			city:citysId.join(',')
+            		}
+
+					request({
+						url: '/api/mechanism/add',
+						data: tempObj
+					}, function(data) {
+						console.log(data)
+						if(data.code == 0){
+							toast('添加成功！').then(function(){
+								searchObj = {
+						    		name:'', //机构名称
+						    		res_person:'', //机构负责人
+						    		mobile:'', //联系电话
+						    		page: cade
+						    	}
+    							pageFn.getList(searchObj);
+
+            					$('#createAreaModal').modal('hide');
+							})
+						}else{
+							toast(data.msg);
+						}
+					})
+
+            	})
+            },
+            //编辑机构功能
+            editSaveFn: function(){
+            	var _id = null;
+            	var citys_id = []; //城市id
+            	var citys_name = [];
+            	//编辑机构修改按钮
+            	$('#s_list').on('click','.modify', function(){
+            		$('#editAreaModal').modal('show');
+
+            		_id = $(this).data().id;
+            		$('#edit_inst_name').val($(this).data().name);
+            		$('#edit_res_person').val($(this).data().res_person);
+            		$('#edit_mobile').val($(this).data().mobile);
+            		var nature = $(this).data().nature;
+
+            		if(nature == 1){
+            			$('input[name="edit_nature"]').eq(0).prop('checked','checked');
+            		}else{
+            			$('input[name="edit_nature"]').eq(1).prop('checked','checked');
+            		}
+
+            		//获取业务覆盖城市名
+            		request({
+						url: '/api/mechanism/info',
+						data: {
+							id:_id,
+							action:'edit'
+						}
+					}, function(data) {
+						console.log(data)
+						if(data.code == 0){
+							citys_id = [];
+            				citys_name = [];
+							var city_list = data.data.city_list;
+							var shtml = '';
+
+							$.each(city_list,function(index,item){
+								shtml += '<label class="checkbox-inline">';
+								if(item.checked == 'true'){
+									shtml += '<input type="checkbox" cityName="'+ item.city_name +'" value="'+ item.id +'" checked="checked"> '+ item.city_name;
+									//城市id
+									citys_id.push(item.id);
+									//选中城市
+									citys_name.push(item.city_name);
+								}else{
+									shtml += '<input type="checkbox" cityName="'+ item.city_name +'" value="'+ item.id +'"> '+ item.city_name;
+								}
+								shtml += '</label>';
+							})
+   
+							var spanHtml = '';
+							$.each(citys_name,function(index,item){
+								spanHtml += '<span>'+ item +'</span>';
+							})
+							$('#edit_citys').html(spanHtml);
+							$('#edit_city_container').html(shtml);
+						}else{
+							toast(data.msg);
+						}
+					})
+            	})
+
+            	//编辑机构-选择城市保存按钮
+            	$('#edit_city_save_btn').click(function(){
+            		citys_id = [];
+            		citys_name = [];
+            		var checkedbox = $('#edit_city_container input[type=checkbox]:checked');
+            		$.each(checkedbox,function(index,item){
+            			citys_id.push($(item).val());
+            			citys_name.push($(item).attr('cityName'))
+            		})
+
+            		var html = '';
+            		$.each(citys_name,function(index,item){
+            			html += '<span>'+ item +'</span>';
+            		})
+            		$('#edit_citys').html(html);
+
+            		$('#selectCityEditModal').modal('hide');
+            	})
+
+            	//编辑机构-保存按钮
+            	$('#edit_save_btn').click(function(){
+            		var name = $('#edit_inst_name').val();
+            		var res_person = $('#edit_res_person').val();
+            		var mobile = $('#edit_mobile').val();
+            		var nature = $('input[name="edit_nature"]:checked').val();
+
+            		if(!name) return toast('机构名称不能为空');
+            		if(!res_person) return toast('负责人不能为空');
+            		if(!mobile) return toast('联系电话不能为空');
+
+            		var tempObj = {
+            			id:_id,
+            			name:name,
+            			res_person:res_person,
+            			mobile:mobile,
+            			nature:nature,
+            			city:citys_id.join(',')
+            		}
+
+            		request({
+						url: '/api/mechanism/edit',
+						data: tempObj
+					}, function(data) {
+						console.log(data)
+						if(data.code == 0){
+							toast('修改成功！').then(function(){
+								searchObj = {
+						    		name:'', //机构名称
+						    		res_person:'', //机构负责人
+						    		mobile:'', //联系电话
+						    		page: cade
+						    	}
+    							pageFn.getList(searchObj);
+
+            					$('#editAreaModal').modal('hide');
+							})
+						}else{
+							toast(data.msg)
+						}
+					})
+            	})
+            },
+            //冻结/解冻机构
+            frozenFn: function(){
+            	$('#s_list').on('click','.frozen', function(){
+            		var _id = $(this).data().id;
+            		var _status = $(this).data().status;
+            		var tips = '';
+            		if(_status == 1){
+            			tips = '您确定要冻结吗？';
+            		}else if(_status == -1){
+            			tips = '您确定要解冻吗？';
+            		}
+
+            		bootbox.dialog({ 
+				        message: '<div style="height:30px;line-height:30px;font-size:16px;">'+ tips +'</div>',  
+				        buttons: {  
+				            Cancel: {
+				                label: "取消",  
+				                className: "btn-default",  
+				                callback: function () {  
+				
+				                }  
+				            },
+				            OK: {  
+				                label: "确定",  
+				                className: "btn-primary",  
+				                callback: function () {
+									request({
+										url: '/api/mechanism/del',
+										data: {
+											id:_id,
+											status:(_status==1?-1:1)
+										}
+									}, function(data) {
+										console.log(data)
+										if(data.code == 0){
+											toast('操作成功').then(function(){
+												searchObj = {
+										    		name:'', //机构名称
+										    		res_person:'', //机构负责人
+										    		mobile:'', //联系电话
+										    		page: cade
+										    	}
+				    							pageFn.getList(searchObj);
+											});
+										}else{
+											toast(data.msg);
+										}
+									})
+				                }  
+				            }  
+				        }  
+				    }); 
+            		
+            		
+            	})
+            },
+            //创建dom
+			createList: function(item,index){
+				var shtml = '';
+				var _index = (cade-1)*20 + (index+1);
+
+				shtml += '<tr id="'+ item.id +'">';
+				shtml += '										<td class="center">'+ _index +'</td>';
+				shtml += '										<td class="center">'+ item.name +'</td>';
+				shtml += '										<td class="center">'+ item.res_person +'</td>';
+				shtml += '										<td class="center">'+ item.mobile +'</td>';
+				shtml += '										<td class="center">'+ (item.nature==1?'自营':'合资运营') +'</td>';
+				shtml += '										<td class="center">'+ (item.status == 1?'解冻':'冻结') +'</td>';
+				shtml += '										<td class="center">';
+				shtml += '											<button class=\'modify btn btn-xs btn-info\' data-id="'+ item.id +'" data-name="'+ item.name +'" data-res_person="'+ item.res_person +'" data-mobile="'+ item.mobile +'" data-nature="'+ item.nature +'">';
+				shtml += '												<i class="ace-icon fa fa-pencil bigger-120"></i>';
+				shtml += '												编辑';
+				shtml += '											</button>';
+				shtml += '											<button class=\'frozen btn btn-xs btn-info\' data-id="'+ item.id +'" data-status="'+ item.status +'">';
+				shtml += '												<i class="ace-icon fa '+ (item.status == 1?'fa-lock':'fa-unlock') +' bigger-150"></i>'+ (item.status == -1?'解冻':'冻结');
+				shtml += '											</button>';
+				shtml += '										</td>';
+				shtml += '									</tr>';
+
+				return shtml;
+			},
+			//获取页码
+            pageList:function(page,cade){
+                var scade = cade-3;
+                if(scade<0){
+                    scade=0;
+                }
+                var spage = page-5;
+                var page_cade = page -cade;
+                var shtml = '';
+                if(page_cade<5){
+                    if(page>5){
+                        page = 5;
+                    }else{
+                        spage = 0;
+                    }
+                    for(var i = 0;i<page;i++){
+                        spage = spage+1;
+                        shtml += '<li>';
+                        shtml += '	<a name="'+spage+'" href="javascript:;">'+spage+'</a>';
+                        shtml += '</li>';
+                    }
+                }else{
+                    var pageend = page-1
+                    for(var i = 0;i<3;i++){
+                        scade = scade+1;
+                        shtml += '<li>';
+                        shtml += '	<a name="'+scade+'" href="javascript:;">'+scade+'</a>';
+                        shtml += '</li>';
+                    }
+                    shtml += '<li>';
+                    shtml += '	<i class="pagedian" href="#">....</i>';
+                    shtml += '</li>';
+                    shtml += '<li>';
+                    shtml += '	<a name="'+pageend+'" href="javascript:;">'+pageend+'</a>';
+                    shtml += '</li>';
+                    shtml += '<li>';
+                    shtml += '	<a name="'+page+'" href="javascript:;">'+page+'</a>';
+                    shtml += '</li>';
+                }
+                $("#page").html(shtml);
+                $("#page_conten").attr("code",cade);
+                $("#page li a").removeClass("redapge");
+                for(var i = 0;i<$("#page li a").length;i++){
+                    var id = $("#page li a").eq(i).html();
+                    if(id == cade){
+                        $("#page li a").eq(i).addClass("redapge");
+                    }
+                }
+            },
+            //点击页码
+            pageClick:function(){
+                $("#page").off().on("click","li",function(){
+                    var _this = $(this).children("a");
+                    cade = _this.html();
+                    $("#page_conten").attr("code",cade);
+                    searchObj.page = cade;
+                    pageFn.getList(searchObj);
+                })
+                $("#prev").off().on("click",function(){
+                    cade = $("#page_conten").attr("code")-1;
+                    if(cade>0){
+                        searchObj.page =cade;
+                        pageFn.getList(searchObj);
+                    }
+                })
+                $("#next").off().on("click",function(){
+                    cade = parseInt($("#page_conten").attr("code"))+1;
+                    console.log(cade);
+                    if(cade<=page){
+                        searchObj.page =cade;
+                        pageFn.getList(searchObj);
+                    }
+                })
+                $("#go").off().on("click",function(){
+                    cade = $(".gonumber").val();
+                    if(cade<=page){
+                        searchObj.page =cade;
+                        pageFn.getList(searchObj);
+                    }
+                })
+            },
+            logOut: function(){
+            	$('#sigin_out').click(function(){
+            		request({
+						url: '/api/user/log-off',
+						data: {}
+					}, function(res) {
+						deleteCookie('token');
+						toast('注销成功').then(function(){
+							location.href = 'login.html';
+						})
+					})
+            	})
+            }
+    	}
+
+    	pageFn.init();
+
+    })
+    </script>
+</body>
+
+</html>

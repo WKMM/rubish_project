@@ -1,0 +1,773 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>小区详情</title>
+    <!--ico-->
+    <!-- <link rel="icon" type="image/x-icon" href="static/img/favicon.ico"/> -->
+
+    <!-- bootstrap & fontawesome -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/font-awesome/4.5.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="assets/font-awesome/4.5.0/css/iconfont.css" />
+
+    <!-- page specific plugin styles -->
+
+    <!-- text fonts -->
+    <link rel="stylesheet" href="assets/css/fonts.googleapis.com.css" />
+
+    <!-- ace styles -->
+    <link rel="stylesheet" href="assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
+
+    <!--[if lte IE 9]>
+			<link rel="stylesheet" href="assets/css/ace-part2.min.css" class="ace-main-stylesheet" />
+		<![endif]-->
+    <link rel="stylesheet" href="assets/css/ace-skins.min.css" />
+    <link rel="stylesheet" href="assets/css/ace-rtl.min.css" />
+
+    <!--[if lte IE 9]>
+		  <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
+		<![endif]-->
+
+    <link rel="stylesheet" href="static/css/base.css" />
+    <link rel="stylesheet" href="static/css/city_index.css" />
+    <!-- inline styles related to this page -->
+
+    <!-- ace settings handler -->
+    <script src="assets/js/ace-extra.min.js"></script>
+
+    <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+
+    <!--[if lte IE 8]>
+		<script src="assets/js/html5shiv.min.js"></script>
+		<script src="assets/js/respond.min.js"></script>
+		<![endif]-->
+    <style>
+    .barcode-list>div{
+        text-align: center;
+    }
+    .barcode-list .barcode_img{
+        width: 100%;
+        height: 100%;
+        margin-bottom: 10px;
+    }
+    .barcode-list .barcode_img img{
+        width: 100%;
+        height: 100%;
+        display: inline-block;
+    }
+    .barcode-list>div p{
+        font-size: 14px;
+    }
+    </style>
+</head>
+
+<body class="skin-1">
+    <!--no-skin默认theme skin-1黑色-->
+    <!--顶部logo、user信息-->
+    <div id="navbar" class="navbar navbar-default ace-save-state">
+        <div class="navbar-container ace-save-state logo_cintainer" id="navbar-container">
+            <!--logo-->
+            <div class="navbar-header pull-left logo">
+                <a href="javascript:;">
+                    <img src="static/img/logo.png" alt="好嘞分类">
+                </a>
+            </div>
+
+            <div class="navbar-header pull-left">
+                <ul class="navbar-navList">
+	                <li class='nav-list-active'><a href="area_list.html?text=area_list">分类单位管理</a></li>
+	                <li><a href="device_management.html?text=device_management">分类设备管理</a></li>
+	                <li><a href="score_rule.html?text=score_rule">积分现金管理</a></li>
+	                <li><a href="user_management.html?text=user_management">报表管理</a></li>
+	                <li><a href="institution_management.html?text=institution_management">系统管理</a></li>
+	            </ul>
+            </div>
+            <!--logo-->
+
+            <!--右侧管理员登录-->
+            <div class="navbar-buttons navbar-header pull-right" role="navigation">
+                <ul class="nav ace-nav">
+                    <li class="light-blue dropdown-modal">
+                        <a data-toggle="dropdown" href="#" class="dropdown-toggle" style="background: #fbfbfb">
+                    <!--         <img id="user_avatar" class="nav-user-photo" src="static/img/favicon.png" alt="Jason's Photo" /> -->
+                            <span id="username" class="user-info">
+                                
+                            </span>
+
+                            <i class="ace-icon fa fa-caret-down"></i>
+                        </a>
+
+                        <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                            <!--<li>
+								<a href="#">
+									<i class="ace-icon fa fa-user"></i>
+									修改密码
+								</a>
+							</li>-->
+
+                            <!--<li class="divider"></li>-->
+                            <li id="sigin_out">
+                                <a href="#">
+                                    <i class="ace-icon fa fa-power-off"></i>
+                                    注销用户
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!--右侧管理员登录-->
+        </div>
+        <!-- /.navbar-container -->
+    </div>
+    <!--顶部logo、user信息-->
+
+    <!--内容区-->
+    <div class="main-container ace-save-state" id="main-container">
+        <script type="text/javascript">
+            try {
+                ace.settings.loadState('main-container')
+            } catch (e) {}
+        </script>
+
+        <!--左侧导航-->
+        <div id="sidebar" class="sidebar responsive ace-save-state JS-nav">
+            <script type="text/javascript">
+                try {
+                    ace.settings.loadState('sidebar')
+                } catch (e) {}
+            </script>
+
+            <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+                <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left"
+                    data-icon2="ace-icon fa fa-angle-double-right"></i>
+            </div>
+        </div>
+        <!--左侧导航-->
+
+        <!--右侧内容区-->
+        <div class="main-content">
+            <div class="main-content-inner">
+				<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+	                <!-- 面包屑导航 -->
+	                <ul class="breadcrumb">
+	                    <li>小区列表</li>
+	                    <li class="area_name"></li>
+	                </ul>
+	            </div>
+                <div class="page-content style_adjustment">
+					<div class="row style_adjustment">
+						<!--条件查询-->
+                        <div class="order-box">
+                            <form class="form-inline">
+                                <div class="row">
+									<button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#importModal">
+										<i class="ace-icon fa fa-plus bigger-110"></i>
+										导入添加户室信息
+									</button>
+									<button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#importRFIDModal">
+										<i class="ace-icon fa fa-plus bigger-110"></i>
+										单独导入RFID
+									</button>
+									<button type="button" class="btn btn-xs btn-primary" id="download">
+										<i class="ace-icon fa fa-download bigger-110"></i>
+										下载导出模版
+									</button>
+									<button type="button" class="btn btn-xs btn-primary" id="export_list">
+										<i class="ace-icon fa fa-share bigger-110"></i>
+										导出列表
+									</button>
+									<button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#printBarcodeModal">
+										<i class="ace-icon fa fa-print bigger-110"></i>
+										打印导出二维码
+									</button>
+									<button type="button" class="btn btn-xs btn-primary del-all-btn">
+										<i class="ace-icon fa fa-trash-o bigger-110"></i>
+										全部删除
+									</button>
+                                </div>
+                            </form>
+
+                        </div>
+                        <!--条件查询结束-->
+						<!-- 表格 -->
+						<div class="table-box">
+							<table id="table" class="table table-bordered table-hover">
+								<thead>
+									<tr>
+										<th class="center">编码</th>
+										<th class="center">楼号</th>
+										<th class="center">单元号</th>
+										<th class="center">门牌号</th>
+										<th class="center" width="120">RFID</th>
+										<th class="center" width="200">二维码</th>
+									</tr>
+								</thead>
+								<tbody id="s_list">
+
+								</tbody>
+							</table>
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+					<!--分页开始-->
+					<div class="row" id="page_conten" code="1">
+						<ul class="pagination pull-right">
+							<li _class="disabled" id="prev">
+								<a href="javascript:;">
+									<i class="ace-icon fa fa-angle-double-left"></i>
+								</a>
+							</li>
+							<div id="page">
+								
+							</div>
+							<li id="next">
+								<a href="javascript:;">
+									<i class="ace-icon fa fa-angle-double-right"></i>
+								</a>
+							</li>
+							<li>
+								<input class="gonumber" placeholder="跳转" style="padding-left: 10px;width:60px;height:32px;margin-left: 10px;" type="number" name="" id="" value="" />
+								<button id="go">go</button>
+							</li>
+						</ul>
+					</div>
+					<!--分页结束-->
+				</div>
+				<!-- /.page-content -->
+            </div>
+        </div>
+        <!--右侧内容区-->
+
+        <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+            <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+        </a>
+    </div>
+
+    <div id="loading" style="width: 100%; height: 100%; background: rgba(0,0,0, .6); position: fixed; top: 0; left: 0; z-index: 999;display:none;">
+	    <i class="ace-icon fa fa-spinner fa-spin orange bigger-125" style="position: absolute; top: 300px; font-size: 100px !important; width: 100%;"></i>
+	</div>
+
+    <div id="qrcode"></div>
+
+	<!-- 导入户室信息 -->
+    <div class="modal fade bs-example-modal-lg" id="importModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+	  <div class="modal-dialog modal-lg" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="exampleModalLabel">导入户室信息</h4>
+	      </div>
+	      <div class="modal-body">
+	        <form class="form-horizontal">
+	        	<p>请选择文件：</p>
+	        	<input type="file" class="form-control" name="file" id="import" />
+	        </form>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+	        <button type="button" class="btn btn-primary" id="upload_btn">上传</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+    <!-- 导入FRID -->
+    <div class="modal fade bs-example-modal-lg" id="importRFIDModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="exampleModalLabel">导入RFID</h4>
+          </div>
+          <div class="modal-body">
+            <form class="form-horizontal">
+                <p>请选择文件：</p>
+                <input type="file" class="form-control" name="file" id="import_rfid" />
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" id="upload_rfid_btn">上传</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 二维码列表 -->
+    <div class="modal fade bs-example-modal-lg" id="printBarcodeModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="exampleModalLabel"><span class="area_name"></span>二维码列表</h4>
+          </div>
+          <div class="modal-body">
+            <div class="row barcode-list">
+<!--                 <div class="col-xs-2">
+                    <img src="static/img/favicon.png" alt="">
+                    <p>7号楼1单元701号</p>
+                </div> -->
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" id="print_btn">打印</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- basic scripts -->
+    <!--[if !IE]> -->
+    <script src="assets/js/jquery-2.1.4.min.js"></script>
+    <!-- <![endif]-->
+
+    <!--[if IE]>
+	<script src="assets/js/jquery-1.11.3.min.js"></script>
+	<![endif]-->
+    <script type="text/javascript">
+        if ('ontouchstart' in document.documentElement) document.write(
+            "<script src='assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+    </script>
+    <script src="assets/js/bootstrap.min.js"></script>
+
+    <!-- page specific plugin scripts -->
+
+    <!--[if lte IE 8]>
+		  <script src="assets/js/excanvas.min.js"></script>
+		<![endif]-->
+    <script src="assets/js/jquery-ui.custom.min.js"></script>
+    <script src="assets/js/jquery.ui.touch-punch.min.js"></script>
+    <script src="assets/js/jquery.easypiechart.min.js"></script>
+    <script src="assets/js/jquery.sparkline.index.min.js"></script>
+    <script src="assets/js/jquery.flot.min.js"></script>
+    <script src="assets/js/jquery.flot.pie.min.js"></script>
+    <script src="assets/js/jquery.flot.resize.min.js"></script>
+	<script src="assets/js/bootbox.js" type="text/javascript" charset="utf-8"></script>
+
+    <!-- ace scripts -->
+    <script src="assets/js/ace-elements.min.js"></script>
+    <script src="assets/js/ace.min.js"></script>
+
+    <!-- inline scripts related to this page -->
+    <script src="static/js/toast/toast.js"></script>
+    <script src="static/js/md5.js"></script>
+    <script src="static/js/utils.js"></script>
+    <script src="static/js/qrcode.js"></script>
+    <script src="static/js/cookies.js"></script>
+    <script src="static/js/nav.js"></script>
+    <script type="text/javascript">
+        $(function(){
+		//请求开关
+		var bOK = true;
+        //是否选择过上传文件标识
+        var continueFlag = false;
+        //是否选择过rfid上传文件标识
+        var continueRfidFlag = false;
+        var _id = getQueryString('id');
+        var page;
+        var cade;
+        var searchObj = {
+            page: cade
+        }
+    	var pageFn = {
+    		init: function(){
+    			$('#username').text(getCookie('username'));
+    			pageFn.createNav();
+    			pageFn.getList(searchObj);
+				//分页
+                pageFn.pageList(page,cade);
+                //导入户室信息
+                pageFn.importFn();
+                //导入RFID
+                pageFn.importRfidFn();
+                //导出功能
+                pageFn.exportFn();
+    			//全部删除
+    			pageFn.delAll();
+                //获取二维码列表
+                pageFn.getBarcode();
+                //打印
+                pageFn.printFn();
+    			//退出登录
+    			pageFn.logOut();
+    		},
+    		getList: function(searchObj){
+    			request({
+					url: '/api/houses/house-hold-list',
+					data: {
+                        id:_id,
+                        page:cade
+                    }
+				}, function(data) {
+					console.log(data)
+					if(!bOK){
+						$('#loading').show();
+					}
+					if(data.code == 0){
+						var res = data.data.list;
+                        var house_name = data.data.house_name;
+                        //面包屑导航
+                        $('.area_name').text(house_name);
+						//创建列表
+						var shtml = '';
+
+						if(res.length > 0){
+                            cade = data.data.current_page;
+                            page = Math.ceil(data.data.total/20);
+                            pageFn.pageList(page,cade);
+
+							$.each(res, function(index, item){
+								shtml += pageFn.createList(item,index);
+							})
+
+							$("#page_conten").show();
+							//点击分页
+                        	pageFn.pageClick();
+                        }else{
+							shtml += '<tr><td colspan="'+ $("#table tr th").length +'">暂无数据。</td></tr>';
+							$("#page_conten").hide();
+                        }
+
+						setTimeout(function(){
+							$('#s_list').html(shtml);
+							bOK = true;
+							$('#loading').hide();
+						}, 1000)
+					}else{
+						toast(data.msg).then(function(){
+							$('#loading').hide();
+						});
+					}
+				})
+    		},
+            //获取二维码列表
+            getBarcode: function(){
+                request({
+                    url: '/api/qrcode/getQrcodes',
+                    data: {
+                        id:_id
+                    }
+                }, function(data) {
+                    console.log(data)
+                    if(data.code == 200){
+                        var shtml = '';
+                        var qrcodeArr = [];
+                        if(data.data && data.data.length > 0){
+                            $.each(data.data, function(index,item){
+                                shtml += '<div class="col-xs-2">';
+                                shtml += '    <div class="barcode_img" id="qrcode_'+ index +'"></div>';
+                                shtml += '    <p>'+ (item.floor_num+item.unit+item.house_num) +'</p>';
+                                shtml += '</div>';
+                                qrcodeArr.push(item.qr_code);
+                            })
+                        }
+                        $('.barcode-list').html(shtml);
+
+                        setTimeout(function(){
+                            $.each(qrcodeArr,function(index,item){
+                                var qrcode = new QRCode("qrcode_" + index);
+                                qrcode.clear(); // 清除代码
+                                qrcode.makeCode(item);
+                            })
+                        },100)
+                    }else{
+                        toast(data.msg);
+                    }
+                })
+            },
+    		//导入户室信息
+    		importFn: function(){
+    			var formData = new FormData();
+    			//选择文件
+    			$('#import').change(function(){
+    				var file = this.files[0];
+                    //先清除，再追加
+                    formData.delete('house_id');
+                    formData.delete('file');
+                    formData.append('house_id', _id);
+                    formData.append('file', file);
+    				continueFlag = true;
+    			})
+    			//上传
+    			$('#upload_btn').click(function(){
+    				if(!continueFlag) return toast('请先选择文件');
+                    var token = getCookie('token');
+
+    				$.ajax({
+				        url: "/api/houses/house-model-import",
+				        type: "post",
+				        dataType: "json",
+                        headers: {
+                            token:token
+                        },
+				        data: formData,
+				        async: false,
+				        cache: false,
+				        contentType: false,
+				        processData: false,
+				        success: function (data) {
+                            console.log(data)
+                            if(data.code == 0){
+                                if(data.data.code == 0){
+                                    toast('导入成功').then(function(){
+                                        location.reload();
+                                    });
+                                }else{
+                                    toast(data.data.meg);
+                                }
+                            }else{
+                                toast(data.msg);
+                            }
+				        },
+				        error: function(err){
+                            console.log(err);
+				        }
+				    });
+    			})
+    		},
+            //导入RFID
+            importRfidFn: function(){
+                var _id = getQueryString('id');
+                var formData = new FormData();
+                //选择文件
+                $('#import_rfid').change(function(){
+                    var file = this.files[0];
+                    //先清除，再追加
+                    //formData.delete('house_id');
+                    formData.delete('file');
+                    //formData.append('house_id', _id);
+                    formData.append('file', file);
+                    continueRfidFlag = true;
+                })
+                //上传
+                $('#upload_rfid_btn').click(function(){
+                    if(!continueRfidFlag) return toast('请先选择文件');
+                    var token = getCookie('token');
+
+                    $.ajax({
+                        url: "/api/houses/rfid-model-import",
+                        type: "post",
+                        dataType: "json",
+                        headers: {
+                            token:token
+                        },
+                        data: formData,
+                        async: false,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: function (data) {
+                            console.log(data)
+                            if(data.code == 0){
+                                toast('导入成功').then(function(){
+                                    location.reload();
+                                });
+                            }else{
+                                toast(data.msg);
+                            }
+                        },
+                        error: function(err){
+                            console.log(err);
+                        }
+                    });
+                })
+            },
+            //导出
+            exportFn: function(){
+                //下载导出模板
+                $('#download').click(function(){
+                    window.open('/api/houses/house-model-export');
+                })
+                //导出列表
+                $('#export_list').click(function(){
+                    window.open('/api/houses/house-hold-export/' + _id);
+                })
+            },
+            //打印
+            printFn: function(){
+                $('#print_btn').click(function(){
+                    //新窗口打印
+                    // var printHtml = $('#printBarcodeModal .modal-body').html();
+                    // var wind = window.open("",'newwindow', 'height=600, width=1200, top=100, left=100, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+                    // wind.document.body.innerHTML = printHtml;
+                    // wind.print();
+                    // wind.close();
+                    // return false;
+                    //---------------------------------------------------------------------
+                    //局部打印
+                    var newstr = $('#printBarcodeModal .modal-body').html();
+                    var oldstr = document.body.innerHTML;//保存当前页面的HTML
+                    document.body.innerHTML = newstr; 
+                    window.print();
+                    document.body.innerHTML = oldstr;
+                    window.location.reload();
+                })
+            },
+    		//全部删除
+    		delAll: function(){
+    			$('.del-all-btn').click(function(){
+    				bootbox.dialog({ 
+				        message: '<div style="height:30px;line-height:30px;font-size:16px;">确定删除表内所有信息？</div>',  
+				        buttons: {  
+				            Cancel: {
+				                label: "取消",  
+				                className: "btn-default",  
+				                callback: function () {  
+				
+				                }  
+				            },
+				            OK: {  
+				                label: "删除",  
+				                className: "btn-primary",  
+				                callback: function () {
+									request({
+										url: '/api/houses/delete-house-hold',
+										data: {
+											hid:_id
+										}
+									}, function(data) {
+										console.log(data)
+										if(data.code == 0){
+											toast('删除成功').then(function(){
+				    							pageFn.getList(searchObj);
+											});
+										}else{
+											toast(data.msg);
+										}
+									})
+				                }  
+				            }  
+				        }  
+				    });
+    			})
+    		},
+    		createNav: function () {
+                var nav_container = $(".JS-nav")[0];
+                this.nav = new Nav(nav_container);
+            },
+            //创建dom
+			createList: function(item,index){
+				var shtml = '';
+
+				shtml += '<tr>';
+				shtml += '										<td class="center">'+ item.id +'</td>';
+				shtml += '										<td class="center">'+ item.floor_num +'</td>';
+				shtml += '										<td class="center">'+ item.unit +'</td>';
+				shtml += '										<td class="center">'+ item.house_num +'</td>';
+				shtml += '										<td class="center">'+ item.rfid +'</td>';
+				shtml += '										<td class="center">'+ item.qr_code +'</td>';
+				shtml += '									</tr>';
+
+				return shtml;
+			},
+			//获取页码
+            pageList:function(page,cade){
+                var scade = cade-3;
+                if(scade<0){
+                    scade=0;
+                }
+                var spage = page-5;
+                var page_cade = page -cade;
+                var shtml = '';
+                if(page_cade<5){
+                    if(page>5){
+                        page = 5;
+                    }else{
+                        spage = 0;
+                    }
+                    for(var i = 0;i<page;i++){
+                        spage = spage+1;
+                        shtml += '<li>';
+                        shtml += '	<a name="'+spage+'" href="javascript:;">'+spage+'</a>';
+                        shtml += '</li>';
+                    }
+                }else{
+                    var pageend = page-1
+                    for(var i = 0;i<3;i++){
+                        scade = scade+1;
+                        shtml += '<li>';
+                        shtml += '	<a name="'+scade+'" href="javascript:;">'+scade+'</a>';
+                        shtml += '</li>';
+                    }
+                    shtml += '<li>';
+                    shtml += '	<i class="pagedian" href="#">....</i>';
+                    shtml += '</li>';
+                    shtml += '<li>';
+                    shtml += '	<a name="'+pageend+'" href="javascript:;">'+pageend+'</a>';
+                    shtml += '</li>';
+                    shtml += '<li>';
+                    shtml += '	<a name="'+page+'" href="javascript:;">'+page+'</a>';
+                    shtml += '</li>';
+                }
+                $("#page").html(shtml);
+                $("#page_conten").attr("code",cade);
+                $("#page li a").removeClass("redapge");
+                for(var i = 0;i<$("#page li a").length;i++){
+                    var id = $("#page li a").eq(i).html();
+                    if(id == cade){
+                        $("#page li a").eq(i).addClass("redapge");
+                    }
+                }
+            },
+            //点击页码
+            pageClick:function(){
+                $("#page").off().on("click","li",function(){
+                    var _this = $(this).children("a");
+                    cade = _this.html();
+                    $("#page_conten").attr("code",cade);
+                    searchObj.page = cade;
+                    pageFn.getList(searchObj);
+                })
+                $("#prev").off().on("click",function(){
+                    cade = $("#page_conten").attr("code")-1;
+                    if(cade>0){
+                        searchObj.page =cade;
+                        pageFn.getList(searchObj);
+                    }
+                })
+                $("#next").off().on("click",function(){
+                    cade = parseInt($("#page_conten").attr("code"))+1;
+                    console.log(cade);
+                    if(cade<=page){
+                        searchObj.page =cade;
+                        pageFn.getList(searchObj);
+                    }
+                })
+                $("#go").off().on("click",function(){
+                    cade = $(".gonumber").val();
+                    if(cade<=page){
+                        searchObj.page =cade;
+                        pageFn.getList(searchObj);
+                    }
+                })
+            },
+            logOut: function(){
+            	$('#sigin_out').click(function(){
+            		request({
+						url: '/api/user/log-off',
+						data: {}
+					}, function(res) {
+						deleteCookie('token');
+						toast('注销成功').then(function(){
+							location.href = 'login.html';
+						})
+					})
+            	})
+            }
+    	}
+
+    	pageFn.init();
+
+    })
+    </script>
+</body>
+
+</html>
